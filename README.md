@@ -1,5 +1,10 @@
 # University Schedule
 
+# All users can:
+- User can navigate to `Free audiences` with selected date and time of lection filter.
+- User can navigate to `Group schedule` where can get schedule from selected group.
+- User can navigate to `Audience schedule` where can get schedule from selected audience.
+
 # Teacher:
 
 Given user is logged on as Teacher
@@ -18,13 +23,6 @@ Given user is logged on as Student
 - User can see `Work study plan of specialty` where can see all disciplines with selected department, 
 specialty, course and groups.
 
-
-# All users can:
-- User can navigate to `Free audiences` with selected date and time of lection filter.
-- User can navigate to `Group schedule` where can get schedule from selected group.
-- User can navigate to `Audience schedule` where can get schedule from selected audience.
-
-
 # Staff
 
 Given user is logged on as Staff:
@@ -38,8 +36,8 @@ Given user is logged on as Admin:
 
 - User can see all possible schedules.
 - User can change/create any information about university.
-- User can change/create roles.
-- User can change/create users.
-- User can change Users roles.
+- User can change/create/delete roles except admin role.
+- User can change/create/delete users except admin role.
+- User can change Users roles except admin role.
 
  
