@@ -25,11 +25,21 @@ specialty, course and groups.
 - User can navigate to `Audience schedule` where can get schedule from selected audience.
 
 
-##Admin/Deanery
+# Staff
+
+Given user is logged on as Staff:
+
+- User can see all possible shedules.
+- User can change/create any information about university except permissions.
+
+# Admin
 
 Given user is logged on as Admin:
 
-- User can see all possible shedules.
-- User can change/create Time of Lesson for shedule.
-- User can change any information about Discipline/Teacher/Group/Student/Lesson.
-  
+- User can see all possible schedules.
+- User can change/create any information about university.
+- User can change/create roles.
+- User can change/create users.
+- User can change Users roles.
+
+ 
