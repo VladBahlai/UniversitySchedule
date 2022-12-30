@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Info</title>
+</head>
+<body>
+<div th:fragment="info">
+    <div class=" d-flex justify-content-center mt-3" th:if="${error}">
+        <div class="alert alert-danger justify-content-center"
+             role="alert" data-aria-autofocus="true"><span
+                th:text="${error}"></span>
+        </div>
+    </div>
+    <div class=" d-flex justify-content-center mt-3" th:if="${success}">
+        <div class="alert alert-success justify-content-center"
+             role="alert" data-aria-autofocus="true"><span
+                th:text="${success}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

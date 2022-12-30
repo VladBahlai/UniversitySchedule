@@ -1,0 +1,18 @@
+<div th:fragment="changeSize(currentSize,pageUrl)" class="d-inline-block">
+    <label for="size">Shown on page:</label>
+    <select name="size" th:field="${currentSize}" onchange="sizeHandler(this.value)" id="size">
+        <option th:value="${currentSize}" th:text="${currentSize}" selected hidden></option>
+        <option th:value="5" th:text="5"></option>
+        <option th:value="10" th:text="10"></option>
+        <option th:value="15" th:text="15"></option>
+        <option th:value="25" th:text="25"></option>
+        <option th:value="50" th:text="50"></option>
+        <option th:value="100" th:text="100"></option>
+    </select>
+    <script type="text/javascript" th:inline="javascript">
+        function sizeHandler(value) {
+            var url = [[${pageUrl}]];
+            window.location.assign(url + value);
+        }
+    </script>
+</div>

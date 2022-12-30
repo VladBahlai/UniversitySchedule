@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <title>Edit user</title>
+    <th:block th:insert="fragments/hidepassword :: style"></th:block>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <h3 class="d-inline-block">User editing</h3>
+    <form class="form-horizontal" th:method="PATCH" th:object="${user}" th:action="@{/admin/users/{id}(id=${user.getId()})}">
+        <div class="form-floating mb-3 w-25">
+            <label for="name">Name of user:</label>
+            <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name"
+                   required>
+        </div>
+        <div class="form-floating mb-3 w-25">
+            <label for="password">Password:</label>
+            <input th:field="*{passwordHash}" type="text" class="form-control key" id="password" placeholder="Enter a password"
+                   required>
+        </div>
+        <div class="form mb-3 w-25">
+            <label>Change roles for user:</label>
+            <select th:field="*{roles}" class="form-control select-picker" multiple id="roles" required>
+                <option th:each="role: ${roles}"
+                        th:text="${role.getName()}"
+                        th:value="${role.getId()}"/>
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Edit user</button>
+        </div>
+    </form>
+</div>
+<script>$('.select-picker').selectpicker();
+</script>
+</body>

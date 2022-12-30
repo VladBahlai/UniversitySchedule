@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Create specialty</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <h3 class="d-inline-block">Creating specialty</h3>
+    <form class="form-horizontal" th:method="POST" th:object="${specialty}" th:action="@{/specialties}">
+        <div th:fragment="form(type)">
+            <div class="form-floating mb-3 w-25">
+                <label for="name">Name of specialty:</label>
+                <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name"
+                       required>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="department">Department:</label>
+
+                <select th:field="*{department}" class="form-control" id="department" required>
+                    <option value="" selected hidden> Please select department</option>
+                    <option th:each="department: ${departments}" th:text="${department.getName()}"
+                            th:value="${department.getId()}"/>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary"><span th:text="${type} ?: 'Create'"></span> specialty
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

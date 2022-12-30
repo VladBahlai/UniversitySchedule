@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Create lesson</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <h3 class="d-inline-block">Lesson creating</h3>
+    <form class="form-horizontal" th:method="POST" th:object="${lesson}" th:action="@{/lessons}">
+        <div th:fragment="form(type)">
+            <div class="form-floating mb-3 w-25">
+                <label for="type">Type of lesson:</label>
+                <select th:field="*{type}" class="form-control" id="type" required>
+                    <option value="" selected hidden> Please select type of lesson</option>
+                    <option th:each="typeOfLesson: ${T(com.github.vladbahlai.university.enums.TypeOfLesson).values()}"
+                            th:text="${typeOfLesson.name()}"
+                            th:value="${typeOfLesson}"/>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="teacher">Teacher:</label>
+                <select th:field="*{teacher}" class="form-control" id="teacher" required>
+                    <option value="" selected hidden> Please select teacher</option>
+                    <option th:each="teacher: ${teachers}" th:text="${teacher.getName()}"
+                            th:value="${teacher.getId()}"/>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="discipline">Discipline:</label>
+                <select th:field="*{discipline}" class="form-control" id="discipline" required>
+                    <option value="" selected hidden> Please select discipline</option>
+                    <option th:each="discipline: ${disciplines}"
+                            th:text="${discipline.getName()+'-'+#strings.capitalize(#strings.toLowerCase(discipline.getCourse().name()))}"
+                            th:value="${discipline.getId()}"/>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="group">Group:</label>
+                <select th:field="*{group}" class="form-control" id="group" required>
+                    <option value="" selected hidden> Please select group</option>
+                    <option th:each="group: ${groups}" th:text="${group.getName()}"
+                            th:value="${group.getId()}"/>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="timeSpan">Number of lesson:</label>
+                <select th:field="*{timeSpan}" class="form-control" id="timeSpan" required>
+                    <option value="" selected hidden> Please select number of lesson</option>
+                    <option th:each="timeSpan : ${timeSpans}" th:text="${timeSpan.getNumberOfLesson()}"
+                            th:value="${timeSpan.getId()}"/>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="audience">Audience:</label>
+                <select th:field="*{audience}" class="form-control" id="audience" required>
+                    <option value="" selected hidden> Please select audience</option>
+                    <option th:each="audience : ${audiences}" th:text="${audience.getName()}"
+                            th:value="${audience.getId()}"/>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="date">Date:</label>
+                <input th:field="*{date}" type="date" id="date" class="form-control">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary"><span th:text="${type} ?: 'Create'"></span> lesson
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

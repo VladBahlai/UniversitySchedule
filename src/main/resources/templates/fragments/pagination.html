@@ -1,0 +1,50 @@
+<div th:fragment="pagination(entity, page, pageUrl, postUrl)">
+    <div th:if="${entity.getTotalPages() > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap font-weight-bold">
+                <li th:class="${page > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{${pageUrl} + '1' + ${postUrl}}" class="page-link"> First</a>
+                </li>
+                <li th:class="${page > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{${pageUrl} + ${page - 1} + ${postUrl}}" class="page-link">Previous</a>
+                </li>
+
+                <th:block th:if="${entity.getTotalPages() <= 10}">
+                    <li th:each="i : ${#numbers.sequence(1, entity.totalPages)}"
+                        th:class="${page != i ? 'page-item' : 'page-item dasabled'}">
+                        <a th:href="@{${pageUrl} + ${i} + ${postUrl}}" class="page-link">[[${i}]]</a>
+                    </li>
+                </th:block>
+
+                <th:block th:if="${entity.getTotalPages() > 10}">
+                    <th:block th:if="${page <= 5 || page > entity.getTotalPages() - 5 }">
+                        <li th:each="i : ${#numbers.sequence(1,5)}"
+                            th:class="${page != i ? 'page-item' : 'page-item dasabled'}">
+                            <a th:href="@{${pageUrl} + ${i} + ${postUrl}}" class="page-link">[[${i}]]</a>
+                        </li>
+                        <a th:href="@{${pageUrl} + 6 + ${postUrl}}" class="page-link">...</a>
+                        <li th:each="i : ${#numbers.sequence(entity.getTotalPages()-4,entity.getTotalPages())}"
+                            th:class="${page != i ? 'page-item' : 'page-item dasabled'}">
+                            <a th:href="@{${pageUrl} + ${i} + ${postUrl}}" class="page-link">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <th:block th:if="${page > 5 && page < entity.getTotalPages() - 4}">
+                        <a th:href="@{${pageUrl} + ${page - 5} + ${postUrl}}" class="page-link">...</a>
+                        <li th:each="i : ${#numbers.sequence(page - 4,page + 4)}"
+                            th:class="${page != i ? 'page-item' : 'page-item dasabled'}">
+                            <a th:href="@{${pageUrl} + ${i} + ${postUrl}}" class="page-link">[[${i}]]</a>
+                        </li>
+                        <a th:href="@{${pageUrl} + ${page + 5} + ${postUrl}}" class="page-link">...</a>
+                    </th:block>
+                </th:block>
+
+                <li th:class="${page < entity.getTotalPages() ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{${pageUrl} + ${page + 1} + ${postUrl}}" class="page-link">Next</a>
+                </li>
+                <li th:class="${page < entity.getTotalPages() ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{${pageUrl} + ${entity.getTotalPages()} + ${postUrl}}" class="page-link">Last</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

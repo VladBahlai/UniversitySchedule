@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Update audience</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <h3 class="d-inline-block">Audience editing</h3>
+    <form class="form-horizontal" th:method="PATCH" th:object="${audience}"
+          th:action="@{/audiences/{id}(id=${audience.getId()})}">
+        <div th:replace="audiences/new.html :: form(type='Edit')"></div>
+    </form>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

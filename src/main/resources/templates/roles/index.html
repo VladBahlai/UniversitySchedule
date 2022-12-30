@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Roles</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div th:replace="fragments/info.html :: info"></div>
+<div class="p-3">
+    <div class="mb-3">
+        <h3 class="d-inline-block">Role list</h3>
+        <a th:href="@{/admin/roles/new}" class="btn btn-primary btn-lg float-right">Create role</a>
+    </div>
+    <div th:replace="fragments/pagination_size.html :: changeSize(currentSize=${currentSize},pageUrl='/admin/roles?page=1&size=')"></div>
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Privileges</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr th:if="${roles.isEmpty()}">
+            <td>No teachers available</td>
+        </tr>
+        <tr th:each="role : ${roles}">
+            <td th:text="${role.getName()}"></td>
+            <td>
+                <th:block th:each="privilege,iterStat :${role.getPrivileges()}">
+                    <span th:text="${privilege.getName()} + ${!iterStat.last?', ':''}"></span>
+                </th:block>
+            </td>
+            <td>
+                <div class="container" th:if="${!role.getName().equals('ROLE_ADMIN')}">
+                    <div class="row float-right">
+                        <div class="col">
+                            <a th:href="@{/admin/roles/{id}/edit (id=${role.getId()})}" class="btn btn-success"
+                               role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <div class="col"
+                             th:unless="${role.getId() == 2 or role.getId() == 3 or role.getId() == 4}">
+                            <form th:method="DELETE" style="display: inline-block"
+                                  th:action="@{/admin/roles/{id}(id=${role.getId()})}">
+                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:replace="fragments/pagination.html :: pagination(entity=${roles},page=${currentPage},pageUrl='/admin/roles?page=',postUrl='&size='+ ${currentSize})"></div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+>
+
+<head>
+    <title>Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: script"></th:block>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class=" d-flex justify-content-center mt-3 mb-3" th:if="${error}">
+    <div class="alert alert-danger justify-content-center"
+         role="alert" data-aria-autofocus="true"><span
+            th:text="${error}"></span>
+    </div>
+</div>
+<div class=" d-flex justify-content-center">
+    <h1>University Content Management System</h1>
+</div>
+<div class=" d-flex justify-content-center">
+    <p>Welcome to University CMS, where you can get information about your university like a different schedules,time
+        table, and other information.</p>
+</div>
+</body>
+</html>

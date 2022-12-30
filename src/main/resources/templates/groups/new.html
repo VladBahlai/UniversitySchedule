@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Create group</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <h3 class="d-inline-block">Group creating</h3>
+    <form class="form-horizontal" th:method="POST" th:object="${group}" th:action="@{/groups}">
+        <div th:fragment="form(type)">
+            <div class="form-floating mb-3 w-25">
+                <label for="name">Name of group:</label>
+                <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name"
+                       required>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="course">Course:</label>
+                <select th:field="*{course}" class="form-control" id="course" required>
+                    <option value="" selected hidden> Please select course</option>
+                    <option th:each="course : ${T(com.github.vladbahlai.university.enums.Course).values()}"
+                            th:value="${course}" th:text="${#strings.capitalize(#strings.toLowerCase(course.name()))}"></option>
+                </select>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="specialty">Specialty:</label>
+                <select th:field="*{specialty}" class="form-control" id="specialty" required>
+                    <option value="" selected hidden> Please select specialty</option>
+                    <option th:each="specialty: ${specialties}" th:text="${specialty.getName()}"
+                            th:value="${specialty.getId()}"/>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary"><span th:text="${type} ?: 'Create'"></span> group</button>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Your disciplines</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <div class="mb-3">
+        <h3 class="d-inline-block">Your disciplines <span sec:authentication="name"></span>:</h3>
+    </div>
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th scope="col">Name of discipline:</th>
+            <th scope="col">Course</th>
+        </tr>
+        </thead>
+        <tr th:if="${disciplines.isEmpty()}">
+            <td colspan="2">
+                <div class="alert alert-danger"
+                     role="alert" data-aria-autofocus="true">You <span sec:authentication="name"></span> don't have any
+                    disciplines. If you student or teacher
+                    tell about this to staff.
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="justify-content-between">
+                        <a th:href="@{/}" class="btn btn-outline-primary">Back to home</a>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        <tr th:each="discipline : ${disciplines}">
+            <td th:text="${discipline.getName()}"></td>
+            <td th:text="${#strings.capitalize(#strings.toLowerCase(discipline.getCourse()))}"></td>
+        </tr>
+    </table>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

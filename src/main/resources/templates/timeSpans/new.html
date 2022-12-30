@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Create time span</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="p-3">
+    <h3 class="d-inline-block">Creating time span</h3>
+    <form class="form-horizontal" th:method="POST" th:object="${timeSpan}" th:action="@{/timeSpans}">
+        <div th:fragment="form(type)">
+            <div class="form-floating mb-3 w-25">
+                <label for="number">Number of lesson:</label>
+                <input th:field="*{numberOfLesson}" type="number" class="form-control" id="number"
+                       placeholder="Enter a number"
+                       required min="1" max="10">
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="startTime">Start time of lesson:</label>
+                <input th:field="*{startTime}" type="time" class="form-control" id="startTime"
+                       placeholder="Enter a start time"
+                       required>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <label for="startTime">End time of lesson:</label>
+                <input th:field="*{endTime}" type="time" class="form-control" id="endTime"
+                       placeholder="Enter an end time"
+                       required>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary"><span th:text="${type} ?: 'Create'"></span> time span
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

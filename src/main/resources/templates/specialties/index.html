@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Specialties</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div th:replace="fragments/info.html :: info"></div>
+
+<div class="p-3">
+    <div class="mb-3">
+        <h3 class="d-inline-block">Specialty list</h3>
+        <a th:href="@{/specialties/new}" class="btn btn-primary btn-lg float-right"
+           sec:authorize="hasAuthority('WRITE_SPECIALTY')">Create specialty</a>
+    </div>
+    <div th:replace="fragments/pagination_size.html :: changeSize(currentSize=${currentSize},pageUrl='/specialties?page=1&size=')"></div>
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr th:if="${specialties.isEmpty()}">
+            <td>No specialties available</td>
+        </tr>
+        <tr th:each="specialty : ${specialties}">
+            <td th:text="${specialty.getName()}"></td>
+            <td th:text="${specialty.getDepartment()?.getName()}"></td>
+            <td>
+                <div class="container">
+                    <div class="row float-right">
+                        <div class="col" sec:authorize="hasAuthority('WRITE_SPECIALTY')">
+                            <a th:href="@{/specialties/{id}/edit (id=${specialty.getId()})}" class="btn btn-success"
+                               role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <div class="col" sec:authorize="hasAuthority('DELETE_SPECIALTY')">
+                            <form th:method="DELETE" style="display: inline-block"
+                                  th:action="@{/specialties/{id}(id=${specialty.getId()})}">
+                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:replace="fragments/pagination.html :: pagination(entity=${specialties},page=${currentPage},pageUrl='/specialties?page=',postUrl='&size='+ ${currentSize})"></div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

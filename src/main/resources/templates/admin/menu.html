@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Roles</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div class="row justify-content-center mt-5">
+    <div class="card mt-5 mr-5">
+        <div>
+            <div class="card-block">
+                <h1 class="card-header text-center p-5">Roles editing</h1>
+                <div class="card-body">
+                    <div>
+                        <p class="text-center">You can edit exist roles and create new</p>
+                    </div>
+                    <div class="row justify-content-md-center">
+
+                        <div class="justify-content-between">
+                            <a th:href="@{/admin/roles}" class="btn btn-outline-primary">Go to page with roles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-5 ml-5">
+        <div>
+            <div class="card-block">
+                <h1 class="card-header text-center p-5">Users editing</h1>
+                <div class="card-body">
+                    <div>
+                        <p class="text-center">You can edit exist user(change name,password,roles) and create
+                            new</p>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="justify-content-between">
+                            <a th:href="@{/admin/users}" class="btn btn-outline-primary">Go to page with users</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <th:block th:insert="fragments/dependencies :: script"></th:block>
+    <th:block th:insert="fragments/calendar :: link"></th:block>
+    <th:block th:insert="fragments/calendar :: style"></th:block>
+    <title>Audiences schedule</title>
+</head>
+<th:block th:insert="fragments/calendar :: script"></th:block>
+<body>
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const audienceId = urlParams.get('audienceId');
+    const start = urlParams.get('startDate');
+    const end = urlParams.get('endDate');
+    var url;
+    if (start != null && end != null && audienceId != null) {
+        url = '\/audienceSchedule/data?startDate=' + start + '&endDate=' + end + '&audienceId=' + audienceId;
+    } else {
+        url = null;
+    }
+    console.log(url)
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            eventDidMount: function (info) {
+                var tooltip = new Tooltip(info.el, {
+                    title: info.event.extendedProps.description,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body',
+                    html: true
+                });
+            },
+            events: url.toString(),
+
+        });
+        calendar.render();
+    });
+
+</script>
+<div th:replace="fragments/menu.html"></div>
+<div class="ml-2 mr-2">
+    <div class="mt-2">
+        <h5>Displayed schedule for audience:</h5>
+    </div>
+    <form th:method="get" class="form-inline mt-2 mb-3" th:action="@{/audienceSchedule}">
+        <select class="form-control" id="department" required th:name="audienceId">
+            <option value="" selected hidden> Please select audience</option>
+            <option th:each="audience: ${audiences}" th:text="${audience.getName()}"
+                    th:value="${audience.getId()}"/>
+        </select>
+        <input type="date" id="start" th:name="startDate" class="form-control ml-2" required/>
+        <input type="date" id="end" th:name="endDate" class="form-control ml-2" required/>
+        <button type="submit" class="btn btn-primary ml-2">Show schedule</button>
+    </form>
+</div>
+<div id='calendar'></div>
+</body>

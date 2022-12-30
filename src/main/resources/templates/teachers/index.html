@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Teachers</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div th:replace="fragments/info.html :: info"></div>
+
+<div class="p-3">
+    <div class="mb-3">
+        <h3 class="d-inline-block">Teacher list</h3>
+        <a th:href="@{/teachers/new}" class="btn btn-primary btn-lg float-right" sec:authorize="hasAuthority('WRITE_TEACHER')">Create teacher</a>
+    </div>
+    <div th:replace="fragments/pagination_size.html :: changeSize(currentSize=${currentSize},pageUrl='/teachers?page=1&size=')"></div>
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Disciplines</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr th:if="${teachers.isEmpty()}">
+            <td>No teachers available</td>
+        </tr>
+        <tr th:each="teacher : ${teachers}">
+            <td th:text="${teacher.getName()}"></td>
+            <td th:text="${teacher.getDepartment()?.getName()}"></td>
+            <td>
+                <th:block th:each="discipline,iterStat :${teacher.getDisciplines()}">
+                    <span th:text="${discipline.getName()} +'-'+${#strings.toLowerCase(discipline.getCourse().name())} +' course'+ ${!iterStat.last?', ':''}"></span>
+                </th:block>
+            </td>
+            <td>
+                <div class="container">
+                    <div class="row float-right">
+                        <div class="col" sec:authorize="hasAuthority('WRITE_TEACHER')">
+                            <a th:href="@{/teachers/{id}/edit (id=${teacher.getId()})}" class="btn btn-success"
+                               role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <div class="col" sec:authorize="hasAuthority('DELETE_TEACHER')">
+                            <form th:method="DELETE" style="display: inline-block"
+                                  th:action="@{/teachers/{id}(id=${teacher.getId()})}">
+                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:replace="fragments/pagination.html :: pagination(entity=${teachers},page=${currentPage},pageUrl='/teachers?page=',postUrl='&size='+ ${currentSize})"></div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

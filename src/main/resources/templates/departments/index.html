@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Departments</title>
+</head>
+<body>
+<div th:replace="fragments/menu.html"></div>
+<div th:replace="fragments/info.html :: info"></div>
+<div class="p-3">
+    <div class="mb-3">
+        <h3 class="d-inline-block">Department list</h3>
+        <a th:href="@{/departments/new}" class="btn btn-primary btn-lg float-right"
+           sec:authorize="hasAuthority('WRITE_DEPARTMENT')">Create department</a>
+    </div>
+    <div th:replace="fragments/pagination_size.html :: changeSize(currentSize=${currentSize},pageUrl='/departments?page=1&size=')"></div>
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr th:if="${departments.isEmpty()}">
+            <td>No departments available</td>
+        </tr>
+        <tr th:each="department : ${departments}">
+            <td th:text="${department.getName()}"></td>
+            <td>
+                <div class="container">
+                    <div class="row float-right">
+                        <div class="col" sec:authorize="hasAuthority('WRITE_DEPARTMENT')">
+                            <a th:href="@{/departments/{id}/edit (id=${department.getId()})}" class="btn btn-success"
+                               role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <div class="col" sec:authorize="hasAuthority('DELETE_DEPARTMENT')">
+                            <form th:method="DELETE" style="display: inline-block"
+                                  th:action="@{/departments/{id}(id=${department.getId()})}">
+                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:replace="fragments/pagination.html :: pagination(entity=${departments},page=${currentPage},pageUrl='/departments?page=',postUrl='&size='+ ${currentSize})"></div>
+<th:block th:insert="fragments/dependencies :: script"></th:block>
+</body>

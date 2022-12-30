@@ -1,0 +1,5 @@
+POSTGRES_VERSION=14
+IMAGE_APP=university
+USER=postgres
+PASSWORD=postgres
+DB_NAME=university

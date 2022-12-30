@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:insert="fragments/dependencies :: link"></th:block>
+    <title>Access Denied</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3" th:fragment="menu">
+    <a class="navbar-brand" th:href="@{/}">University CMS</a>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Audiences</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDown">
+                    <a class="dropdown-item" th:href="@{/audiences}" sec:authorize="hasAuthority('READ_AUDIENCE')">Audiences</a>
+                    <a class="dropdown-item" th:href="@{/freeAudiences}">Free audiences</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownDisciplines" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Disciplines</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDownDisciplines">
+                    <a class="dropdown-item" th:href="@{/disciplines}" sec:authorize="hasAuthority('READ_DISCIPLINE')">Disciplines</a>
+                    <a class="dropdown-item" th:href="@{/disciplines/my}">My disciplines</a>
+                </div>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_DEPARTMENT')">
+                <a class="nav-link" th:href="@{/departments}">Departments</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_GROUP')">
+                <a class="nav-link" th:href="@{/groups}">Groups</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('WRITE_LESSON')">
+                <a class="nav-link" th:href="@{/lessons}">Lessons</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_SPECIALTY')">
+                <a class="nav-link" th:href="@{/specialties}">Specialties</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_STUDENT')">
+                <a class="nav-link" th:href="@{/students}">Students</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_TEACHER')">
+                <a class="nav-link" th:href="@{/teachers}">Teachers</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_TIMESPAN')">
+                <a class="nav-link" th:href="@{/timeSpans}">Timetable</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('READ_STUDY_PLAN')">
+                <a class="nav-link" th:href="@{/studyPlan}">Study plan</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownSchedule" role="button"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Schedules</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDownSchedule">
+                    <a class="dropdown-item" th:href="@{/departmentSchedule}"
+                       sec:authorize="hasAuthority('READ_TEACHER_DEPARTMENT_SCHEDULE')">Department schedule</a>
+                    <a class="dropdown-item" th:href="@{/schedule}">Schedule</a>
+                    <a class="dropdown-item" th:href="@{/teacherSchedule}"
+                       sec:authorize="hasAuthority('READ_TEACHER_SCHEDULE')">Teacher schedule</a>
+                    <a class="dropdown-item" th:href="@{/mySchedule}"
+                       sec:authorize="hasAuthority('READ_USER_SCHEDULE')">My schedule</a>
+                    <a class="dropdown-item" th:href="@{/audienceSchedule}"
+                       sec:authorize="hasAuthority('READ_AUDIENCE_SCHEDULE')">Audience schedule</a>
+                </div>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <a class="nav-link" th:href="@{/admin}">Admin Panel</a>
+            </li>
+        </ul>
+        <form method="post" th:action="@{/logout}">
+            <input type="submit" class="btn btn-outline-danger my-2 my-sm-0" value="Logout"/>
+        </form>
+    </div>
+</nav>
