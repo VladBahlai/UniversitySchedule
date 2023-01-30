@@ -1,15 +1,16 @@
 package com.github.vladbahlai.university.misc;
 
 import com.github.vladbahlai.university.enums.Course;
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Group;
 import com.github.vladbahlai.university.model.Specialty;
 import com.github.vladbahlai.university.service.GroupService;
-import com.github.vladbahlai.university.utils.RandomGenerator;
-import com.github.vladbahlai.university.utils.Values;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.github.vladbahlai.university.utils.RandomGenerator.randomChar;
+import static com.github.vladbahlai.university.utils.Values.ALPHABET;
 
 @Service
 public class GroupGenerator {
@@ -28,7 +29,7 @@ public class GroupGenerator {
                 for (int i = 1; i <= countGroupsOnCourse; i++) {
                     try {
                         groupService.saveGroup(new Group(String.valueOf(abbreviationWithCourse) + i, course, specialty));
-                    } catch (UniqueNameConstraintException e) {
+                    } catch (UniqueConstraintException e) {
                         throw new RuntimeException(e);
                     }
                 }
@@ -37,6 +38,6 @@ public class GroupGenerator {
     }
 
     private StringBuilder generateAbbreviation() {
-        return new StringBuilder(String.valueOf(RandomGenerator.randomChar(Values.ALPHABET))).append('-');
+        return new StringBuilder(String.valueOf(randomChar(ALPHABET))).append('-');
     }
 }

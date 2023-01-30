@@ -35,7 +35,7 @@ class UserControllerTest {
 
     @Test
     void shouldReturnViewWithUserPage() throws Exception {
-        List<User> userList = Arrays.asList(new User("test", "test"), new User("test", "test"));
+        List<User> userList = Arrays.asList(new User("test", "test","email@example.com"), new User("test", "test","email@example.com"));
         Page<User> users = new PageImpl<>(userList);
         when(userService.getPage(PageRequest.of(0, 25))).thenReturn(users);
         this.mockMvc
@@ -61,7 +61,7 @@ class UserControllerTest {
 
     @Test
     void shouldCreateUser() throws Exception {
-        User user = new User("test", "test");
+        User user = new User("test", "test","email@example.com");
         this.mockMvc
                 .perform(post("/admin/users")
                         .flashAttr("user", user).with(csrf()))
@@ -85,7 +85,7 @@ class UserControllerTest {
     @Test
     void shouldReturnUserEditForm() throws Exception {
         List<Role> roles = Arrays.asList(new Role(1L, "test"), new Role(2L, "test"));
-        User user = new User(2L, "test", "test");
+        User user = new User(2L, "test", "test","email@example.com");
 
         when(roleService.getRoles()).thenReturn(roles);
         when(userService.getUserById(2L)).thenReturn(user);
@@ -109,7 +109,7 @@ class UserControllerTest {
 
     @Test
     void shouldUpdateUserWithoutPassword() throws Exception {
-        User user = new User(2L, "test", "test");
+        User user = new User(2L, "test", "test","email@example.com");
         when(userService.getUserById(2L)).thenReturn(user);
         this.mockMvc
                 .perform(patch("/admin/users/{id}", "2")
@@ -123,8 +123,8 @@ class UserControllerTest {
 
     @Test
     void shouldUpdateUserWithPassword() throws Exception {
-        User userWithNewPassword = new User(2L, "test", "test");
-        User userWithOldPassword = new User(2L, "test", "tes");
+        User userWithNewPassword = new User(2L, "test", "test","email@example.com");
+        User userWithOldPassword = new User(2L, "test", "tes","email@example.com");
         when(userService.getUserById(2L)).thenReturn(userWithOldPassword);
         this.mockMvc
                 .perform(patch("/admin/users/{id}", "2")

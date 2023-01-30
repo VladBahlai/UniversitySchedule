@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Specialty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public interface SpecialtyService {
     void deleteSpecialty(Long id);
 
     @Transactional
-    Specialty saveSpecialty(Specialty specialty) throws UniqueNameConstraintException;
+    Specialty saveSpecialty(Specialty specialty) throws UniqueConstraintException;
 
     @PreAuthorize("hasAuthority('READ_SPECIALTY')")
     @Transactional(readOnly = true)

@@ -20,6 +20,7 @@
         <thead>
         <tr>
             <th scope="col">Name</th>
+            <th scope="col">Email</th>
             <th scope="col">Department</th>
             <th scope="col">Disciplines</th>
             <th></th>
@@ -30,6 +31,7 @@
         </tr>
         <tr th:each="teacher : ${teachers}">
             <td th:text="${teacher.getName()}"></td>
+            <td th:text="${teacher.getEmail()}"></td>
             <td th:text="${teacher.getDepartment()?.getName()}"></td>
             <td>
                 <th:block th:each="discipline,iterStat :${teacher.getDisciplines()}">

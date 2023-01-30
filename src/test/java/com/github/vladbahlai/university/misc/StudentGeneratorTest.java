@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.misc;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Group;
 import com.github.vladbahlai.university.model.Student;
 import com.github.vladbahlai.university.service.RoleService;
@@ -28,7 +28,7 @@ class StudentGeneratorTest {
     StudentGenerator generator;
 
     @Test
-    void shouldGenerateStudents() throws UniqueNameConstraintException {
+    void shouldGenerateStudents() throws UniqueConstraintException {
         List<Group> groups = new ArrayList<>(Arrays.asList(new Group(), new Group()));
         generator.generateStudentData(groups, 5, 15);
         verify(studentService, atLeast(5 * groups.size())).saveStudent(any(Student.class));

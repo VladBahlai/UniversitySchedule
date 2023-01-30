@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.User;
 import com.github.vladbahlai.university.service.RoleService;
 import com.github.vladbahlai.university.service.UserService;
@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.ConstraintViolationException;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -48,8 +50,11 @@ public class UserController {
             userService.saveUser(user);
             logger.info("Created user with name " + user.getName());
             redirectAttributes.addFlashAttribute("success", "User with name " + user.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        catch (ConstraintViolationException e){
+            redirectAttributes.addFlashAttribute("error", "Email is not valid.");
         }
         return "redirect:/admin/users";
     }
@@ -82,8 +87,11 @@ public class UserController {
             userService.saveUser(user);
             logger.info("Updated user with id " + user.getId());
             redirectAttributes.addFlashAttribute("success", "User with name " + user.getName() + " updated.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        catch (ConstraintViolationException e){
+            redirectAttributes.addFlashAttribute("error", "Email is not valid.");
         }
         return "redirect:/admin/users";
     }

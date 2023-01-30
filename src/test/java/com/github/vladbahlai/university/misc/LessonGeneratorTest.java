@@ -35,8 +35,8 @@ class LessonGeneratorTest {
     void shouldNotGenerateLessonsTeacherDoesntHaveSuitableDisciplines() {
         List<Teacher> teachers = new ArrayList<>(
                 Arrays.asList(
-                        new Teacher(1L, "Test", "123", new Department(1L, "test")),
-                        new Teacher(2L, "Test", "123", new Department(2L, "test"))));
+                        new Teacher(1L, "Test", "123","email@example.com" ,new Department(1L, "test")),
+                        new Teacher(2L, "Test", "123","email2@example.com", new Department(2L, "test"))));
         teachers.get(0).getDisciplines().add(
                 new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty()));
         teachers.get(0).getDisciplines().add(
@@ -64,8 +64,8 @@ class LessonGeneratorTest {
     void shouldGenerateLessons() {
         List<Teacher> teachers = new ArrayList<>(
                 Arrays.asList(
-                        new Teacher(1L, "Test", "123", new Department(1L, "test")),
-                        new Teacher(2L, "Test", "123", new Department(2L, "test"))));
+                        new Teacher(1L, "Test", "123","email@example.com" ,new Department(1L, "test")),
+                        new Teacher(2L, "Test", "123","email2@example.com", new Department(2L, "test"))));
         teachers.get(0).getDisciplines().add(
                 new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty()));
         teachers.get(0).getDisciplines().add(

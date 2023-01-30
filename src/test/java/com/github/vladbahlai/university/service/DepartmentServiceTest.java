@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Department;
 import com.github.vladbahlai.university.repository.DepartmentRepository;
 import com.github.vladbahlai.university.service.impl.DepartmentServiceImpl;
@@ -24,7 +24,7 @@ class DepartmentServiceTest {
     DepartmentService service;
 
     @Test
-    void shouldCreateDepartment() throws UniqueNameConstraintException {
+    void shouldCreateDepartment() throws UniqueConstraintException {
         Department department = new Department("1");
         Department expected = new Department(1L, "1");
         when(repository.existsByName(department.getName())).thenReturn(false);
@@ -35,7 +35,7 @@ class DepartmentServiceTest {
     }
 
     @Test
-    void shouldUpdateDepartment() throws UniqueNameConstraintException {
+    void shouldUpdateDepartment() throws UniqueConstraintException {
         Department expected = new Department(1L, "1");
         when(repository.existsByName(expected.getName())).thenReturn(true);
         when(repository.existsById(expected.getId())).thenReturn(true);
@@ -51,11 +51,11 @@ class DepartmentServiceTest {
         Department firstDepartment = new Department("a");
         Department secondDepartment = new Department(1L, "a");
         when(repository.existsByName(firstDepartment.getName())).thenReturn(true);
-        Exception firstException = assertThrows(UniqueNameConstraintException.class, () -> service.saveDepartment(firstDepartment));
+        Exception firstException = assertThrows(UniqueConstraintException.class, () -> service.saveDepartment(firstDepartment));
         when(repository.existsByName(secondDepartment.getName())).thenReturn(true);
         when(repository.existsById(secondDepartment.getId())).thenReturn(true);
         when(repository.findById(secondDepartment.getId())).thenReturn(Optional.of(new Department(1L, "2")));
-        Exception secondException = assertThrows(UniqueNameConstraintException.class, () -> service.saveDepartment(secondDepartment));
+        Exception secondException = assertThrows(UniqueConstraintException.class, () -> service.saveDepartment(secondDepartment));
         String expectedExceptionMessage = "Department with a name already exist.";
         assertEquals(expectedExceptionMessage, firstException.getMessage());
         assertEquals(expectedExceptionMessage, secondException.getMessage());

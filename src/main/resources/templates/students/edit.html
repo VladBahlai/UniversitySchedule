@@ -18,6 +18,11 @@
                    required>
         </div>
         <div class="form-floating mb-3 w-25">
+            <label for="email">Email:</label>
+            <input th:field="*{email}" type="text" class="form-control" placeholder="Enter a email"
+                   id="email" required>
+        </div>
+        <div class="form-floating mb-3 w-25">
             <label for="password">Password:</label>
             <input th:field="*{passwordHash}" type="text" class="form-control key" placeholder="Enter a password"
                    id="password" required>

@@ -40,7 +40,7 @@ class StudentControllerTest {
     @Test
     @WithMockUser(username = "test", authorities = "READ_STUDENT")
     void shouldReturnViewWithStudentPage() throws Exception {
-        List<Student> studentList = Arrays.asList(new Student(1L, "test", "123"), new Student(2L, "test", "123"));
+        List<Student> studentList = Arrays.asList(new Student(1L, "test", "123","email@example.com"), new Student(2L, "test", "123","email@example.com"));
         Page<Student> students = new PageImpl<>(studentList);
         when(studentService.getPage(PageRequest.of(0, 25))).thenReturn(students);
         this.mockMvc
@@ -71,7 +71,7 @@ class StudentControllerTest {
     @Test
     @WithMockUser(username = "test", authorities = "WRITE_STUDENT")
     void shouldCreateStudent() throws Exception {
-        Student student = new Student("test", "123", new Group("test", Course.FIRST));
+        Student student = new Student("test", "123","email@example.com", new Group("test", Course.FIRST));
         this.mockMvc
                 .perform(post("/students")
                         .flashAttr("student", student).with(csrf()))
@@ -102,7 +102,7 @@ class StudentControllerTest {
         List<Group> groups = Arrays.asList(
                 new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")),
                 new Group(2L, "test", Course.FIRST, new Specialty(1L, "test")));
-        Student student = new Student("test", "123", groups.get(0));
+        Student student = new Student("test", "123","email@example.com", groups.get(0));
 
         when(groupService.getGroups()).thenReturn(groups);
         when(studentService.getStudentById(1L)).thenReturn(student);
@@ -118,7 +118,7 @@ class StudentControllerTest {
     @Test
     @WithMockUser(username = "test", authorities = "WRITE_STUDENT")
     void shouldUpdateStudent() throws Exception {
-        Student student = new Student(1L, "test", "123", new Group("test", Course.FIRST));
+        Student student = new Student(1L, "test", "123","email@example.com", new Group("test", Course.FIRST));
         when(studentService.getStudentById(student.getId())).thenReturn(student);
         this.mockMvc
                 .perform(patch("/students/{id}", "1")

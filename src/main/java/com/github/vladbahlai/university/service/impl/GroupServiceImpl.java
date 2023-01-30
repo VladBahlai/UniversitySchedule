@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Group;
 import com.github.vladbahlai.university.repository.GroupRepository;
 import com.github.vladbahlai.university.service.GroupService;
@@ -40,12 +40,12 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     @Transactional
-    public Group saveGroup(Group group) throws UniqueNameConstraintException {
+    public Group saveGroup(Group group) throws UniqueConstraintException {
         if (repo.existsByName(group.getName()) && group.getId() == null) {
-            throw new UniqueNameConstraintException("Group with " + group.getName() + " name already exist.");
+            throw new UniqueConstraintException("Group with " + group.getName() + " name already exist.");
         } else if (group.getId() != null && repo.existsById(group.getId()) && repo.existsByName(group.getName())) {
             if (!group.getName().equals(repo.findById(group.getId()).get().getName())) {
-                throw new UniqueNameConstraintException("Group with " + group.getName() + " name already exist.");
+                throw new UniqueConstraintException("Group with " + group.getName() + " name already exist.");
             }
         }
         return repo.save(group);

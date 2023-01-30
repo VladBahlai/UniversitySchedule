@@ -18,7 +18,7 @@ class StudentRepositoryTest {
 
     @Test
     void shouldReadAndWriteStudent() {
-        Student expected = repo.save(new Student("student", "123"));
+        Student expected = repo.save(new Student("student", "123","email@example.com"));
         Optional<Student> actual = repo.findById(expected.getId());
 
         assertTrue(actual.isPresent());

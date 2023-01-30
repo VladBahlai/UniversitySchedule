@@ -15,15 +15,22 @@
 <div th:replace="fragments/menu.html"></div>
 <div class="p-3">
     <h3 class="d-inline-block">User editing</h3>
-    <form class="form-horizontal" th:method="PATCH" th:object="${user}" th:action="@{/admin/users/{id}(id=${user.getId()})}">
+    <form class="form-horizontal" th:method="PATCH" th:object="${user}"
+          th:action="@{/admin/users/{id}(id=${user.getId()})}">
         <div class="form-floating mb-3 w-25">
             <label for="name">Name of user:</label>
             <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name"
                    required>
         </div>
         <div class="form-floating mb-3 w-25">
+            <label for="email">Email:</label>
+            <input th:field="*{email}" type="text" class="form-control" placeholder="Enter a email"
+                   id="email" required>
+        </div>
+        <div class="form-floating mb-3 w-25">
             <label for="password">Password:</label>
-            <input th:field="*{passwordHash}" type="text" class="form-control key" id="password" placeholder="Enter a password"
+            <input th:field="*{passwordHash}" type="text" class="form-control key" id="password"
+                   placeholder="Enter a password"
                    required>
         </div>
         <div class="form mb-3 w-25">

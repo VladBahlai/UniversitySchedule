@@ -46,8 +46,8 @@ class TeacherControllerTest {
     @WithMockUser(username = "test", authorities = "READ_TEACHER")
     void shouldReturnViewWitTeacherPage() throws Exception {
         List<Teacher> teacherList = Arrays.asList(
-                new Teacher(1L, "test", "123"),
-                new Teacher(2L, "test", "123"));
+                new Teacher(1L, "test", "123","email@example.com"),
+                new Teacher(2L, "test", "123","email@example.com"));
         Page<Teacher> teachers = new PageImpl<>(teacherList);
         when(teacherService.getPage(PageRequest.of(0, 25))).thenReturn(teachers);
         this.mockMvc
@@ -79,7 +79,7 @@ class TeacherControllerTest {
     @Test
     @WithMockUser(username = "test", authorities = "WRITE_TEACHER")
     void shouldCreateTeacher() throws Exception {
-        Teacher teacher = new Teacher("test", "123", new Department(1L, "test"));
+        Teacher teacher = new Teacher("test", "123","email@example.com", new Department(1L, "test"));
         this.mockMvc
                 .perform(post("/teachers")
                         .flashAttr("teacher", teacher).with(csrf()))
@@ -109,7 +109,7 @@ class TeacherControllerTest {
         List<Department> departments = Arrays.asList(new Department("test"), new Department("test"));
         List<Discipline> disciplines = Collections.singletonList(
                 new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")));
-        Teacher teacher = new Teacher(1L, "test", "123", departments.get(0));
+        Teacher teacher = new Teacher(1L, "test", "123","email@example.com", departments.get(0));
 
         when(disciplineService.getDisciplines()).thenReturn(disciplines);
         when(departmentService.getDepartments()).thenReturn(departments);
@@ -126,7 +126,7 @@ class TeacherControllerTest {
     @Test
     @WithMockUser(username = "test", authorities = "WRITE_TEACHER")
     void shouldUpdateTeacher() throws Exception {
-        Teacher teacher = new Teacher(1L, "test", "123", new Department(1L, "test"));
+        Teacher teacher = new Teacher(1L, "test", "123","email@example.com", new Department(1L, "test"));
         when(teacherService.getTeacherById(teacher.getId())).thenReturn(teacher);
         this.mockMvc
                 .perform(patch("/teachers/{id}", 1)

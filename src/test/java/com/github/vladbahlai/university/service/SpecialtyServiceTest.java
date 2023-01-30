@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Specialty;
 import com.github.vladbahlai.university.repository.SpecialtyRepository;
 import com.github.vladbahlai.university.service.impl.SpecialtyServiceImpl;
@@ -24,7 +24,7 @@ class SpecialtyServiceTest {
     SpecialtyService service;
 
     @Test
-    void shouldCreateSpecialty() throws UniqueNameConstraintException {
+    void shouldCreateSpecialty() throws UniqueConstraintException {
         Specialty specialty = new Specialty("1");
         Specialty expected = new Specialty(1L, "1");
         when(repository.existsByName(specialty.getName())).thenReturn(false);
@@ -35,7 +35,7 @@ class SpecialtyServiceTest {
     }
 
     @Test
-    void shouldUpdateSpecialty() throws UniqueNameConstraintException {
+    void shouldUpdateSpecialty() throws UniqueConstraintException {
         Specialty expected = new Specialty(1L, "1");
         when(repository.existsByName(expected.getName())).thenReturn(true);
         when(repository.existsById(expected.getId())).thenReturn(true);
@@ -51,11 +51,11 @@ class SpecialtyServiceTest {
         Specialty firstSpecialty = new Specialty("a");
         Specialty secondSpecialty = new Specialty(1L, "a");
         when(repository.existsByName(firstSpecialty.getName())).thenReturn(true);
-        Exception firstException = assertThrows(UniqueNameConstraintException.class, () -> service.saveSpecialty(firstSpecialty));
+        Exception firstException = assertThrows(UniqueConstraintException.class, () -> service.saveSpecialty(firstSpecialty));
         when(repository.existsByName(secondSpecialty.getName())).thenReturn(true);
         when(repository.existsById(secondSpecialty.getId())).thenReturn(true);
         when(repository.findById(secondSpecialty.getId())).thenReturn(Optional.of(new Specialty(1L, "2")));
-        Exception secondException = assertThrows(UniqueNameConstraintException.class, () -> service.saveSpecialty(secondSpecialty));
+        Exception secondException = assertThrows(UniqueConstraintException.class, () -> service.saveSpecialty(secondSpecialty));
         String expectedExceptionMessage = "Specialty with a name already exist.";
         assertEquals(expectedExceptionMessage, firstException.getMessage());
         assertEquals(expectedExceptionMessage, secondException.getMessage());

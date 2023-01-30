@@ -62,7 +62,7 @@ class GroupScheduleControllerTest {
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")), group,
-                        new Teacher(1L, "test", "123"),
+                        new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10),
                         new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"), TypeOfLesson.PRACTICE));

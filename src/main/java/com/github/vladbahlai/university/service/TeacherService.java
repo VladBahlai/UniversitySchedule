@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Teacher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public interface TeacherService {
     void deleteTeacher(Long id);
 
     @Transactional
-    Teacher saveTeacher(Teacher teacher) throws UniqueNameConstraintException;
+    Teacher saveTeacher(Teacher teacher) throws UniqueConstraintException;
 
     @Transactional
     Teacher addDisciplineToTeacher(Long teacherId, Long disciplineId);

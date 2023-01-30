@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public interface GroupService {
     void deleteGroup(Long id);
 
     @Transactional
-    Group saveGroup(Group group) throws UniqueNameConstraintException;
+    Group saveGroup(Group group) throws UniqueConstraintException;
 
     @PreAuthorize("hasAuthority('READ_GROUP')")
     @Transactional(readOnly = true)

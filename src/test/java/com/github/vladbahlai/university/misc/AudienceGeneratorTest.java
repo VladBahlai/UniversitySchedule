@@ -1,6 +1,7 @@
 package com.github.vladbahlai.university.misc;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.javafaker.Faker;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Audience;
 import com.github.vladbahlai.university.service.AudienceService;
 import org.junit.jupiter.api.Test;
@@ -22,13 +23,15 @@ class AudienceGeneratorTest {
     AudienceGenerator generator;
 
     @Test
-    void shouldGenerateAudiences() throws UniqueNameConstraintException {
+    void shouldGenerateAudiences() throws UniqueConstraintException {
+        Faker faker = new Faker();
+        System.out.println(faker.internet().emailAddress());
         generator.generateAudienceData(10, 0, 100);
         verify(service, times(10)).saveAudience(any(Audience.class));
     }
 
     @Test
-    void shouldNotGenerateAudiences() throws UniqueNameConstraintException {
+    void shouldNotGenerateAudiences() throws UniqueConstraintException {
         generator.generateAudienceData(100, 0, 10);
         verify(service, times(0)).saveAudience(any(Audience.class));
     }

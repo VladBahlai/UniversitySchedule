@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Discipline;
 import com.github.vladbahlai.university.model.Teacher;
 import com.github.vladbahlai.university.repository.DisciplineRepository;
@@ -49,7 +49,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional
-    public Teacher saveTeacher(Teacher teacher) throws UniqueNameConstraintException {
+    public Teacher saveTeacher(Teacher teacher) throws UniqueConstraintException {
         if (teacher.getId() != null) {
             Teacher teacherDB = teacherRepo.findById(teacher.getId()).orElseThrow(() -> new IllegalArgumentException(TEACHER_NOT_FOUND + teacher.getId()));
             if (!teacherDB.getPasswordHash().equals(teacher.getPasswordHash())) {
@@ -58,11 +58,11 @@ public class TeacherServiceImpl implements TeacherService {
         } else {
             teacher.setPasswordHash(passwordEncoder.encode(teacher.getPasswordHash()));
         }
-        if ((teacherRepo.existsByName(teacher.getName()) && teacher.getId() == null) ||
+        if ((teacherRepo.existsByEmail(teacher.getEmail()) && teacher.getId() == null) ||
                 (teacher.getId() != null &&
-                        teacherRepo.existsByName(teacher.getName()) &&
-                        !teacher.getName().equals(teacherRepo.findById(teacher.getId()).orElseThrow(() -> new IllegalArgumentException(TEACHER_NOT_FOUND + teacher.getId())).getName()))) {
-            throw new UniqueNameConstraintException("Teacher with " + teacher.getName() + " name already exist.");
+                        teacherRepo.existsByEmail(teacher.getEmail()) &&
+                        !teacher.getEmail().equals(teacherRepo.findById(teacher.getId()).orElseThrow(() -> new IllegalArgumentException(TEACHER_NOT_FOUND + teacher.getId())).getEmail()))) {
+            throw new UniqueConstraintException("Teacher with " + teacher.getEmail() + " email already exist.");
         }
         return teacherRepo.save(teacher);
     }

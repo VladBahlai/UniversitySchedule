@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.TimeSpan;
 import com.github.vladbahlai.university.repository.TimeSpanRepository;
 import com.github.vladbahlai.university.service.TimeSpanService;
@@ -40,12 +40,12 @@ public class TimeSpanServiceImpl implements TimeSpanService {
 
     @Override
     @Transactional
-    public TimeSpan saveTimeSpan(TimeSpan timeSpan) throws UniqueNameConstraintException {
+    public TimeSpan saveTimeSpan(TimeSpan timeSpan) throws UniqueConstraintException {
         if (repo.existsByNumberOfLesson(timeSpan.getNumberOfLesson()) && timeSpan.getId() == null) {
-            throw new UniqueNameConstraintException("TimeSpan with " + timeSpan.getNumberOfLesson() + " number already exist.");
+            throw new UniqueConstraintException("TimeSpan with " + timeSpan.getNumberOfLesson() + " number already exist.");
         } else if (timeSpan.getId() != null && repo.existsById(timeSpan.getId()) && repo.existsByNumberOfLesson(timeSpan.getNumberOfLesson())) {
             if (timeSpan.getNumberOfLesson() != repo.findById(timeSpan.getId()).get().getNumberOfLesson()) {
-                throw new UniqueNameConstraintException("TimeSpan with " + timeSpan.getNumberOfLesson() + " number already exist.");
+                throw new UniqueConstraintException("TimeSpan with " + timeSpan.getNumberOfLesson() + " number already exist.");
             }
         }
         return repo.save(timeSpan);

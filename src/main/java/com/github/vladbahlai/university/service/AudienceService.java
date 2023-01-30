@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Audience;
 import com.github.vladbahlai.university.model.TimeSpan;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public interface AudienceService {
     void deleteAudience(Long id);
 
     @Transactional
-    Audience saveAudience(Audience audience) throws UniqueNameConstraintException;
+    Audience saveAudience(Audience audience) throws UniqueConstraintException;
 
     @PreAuthorize("hasAuthority('READ_AUDIENCE')")
     @Transactional(readOnly = true)

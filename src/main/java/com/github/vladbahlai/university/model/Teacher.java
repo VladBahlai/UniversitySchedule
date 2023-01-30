@@ -24,42 +24,41 @@ public class Teacher extends User {
     public Teacher() {
     }
 
-    public Teacher(String name, String passwordHash) {
-        super(name, passwordHash);
+    public Teacher(String name, String passwordHash, String email) {
+        super(name, passwordHash, email);
     }
 
-    public Teacher(Long id, String name, String passwordHash) {
-        super(id, name, passwordHash);
-    }
-
-    public Teacher(String name, String passwordHash, Department department) {
-        super(name, passwordHash);
+    public Teacher(String name, String passwordHash, String email, Department department) {
+        super(name, passwordHash, email);
         this.department = department;
     }
 
-    public Teacher(Long id, String name, String passwordHash, Department department) {
-        super(id, name, passwordHash);
+    public Teacher(String name, String passwordHash, String email, Set<Role> roles) {
+        super(name, passwordHash, email, roles);
+    }
+
+    public Teacher(String name, String passwordHash, String email, Department department, Set<Role> roles) {
+        super(name, passwordHash, email, roles);
         this.department = department;
     }
 
-    public Teacher(String name, String passwordHash, Set<Role> roles) {
-        super(name, passwordHash, roles);
+    public Teacher(Long id, String name, String passwordHash, String email) {
+        super(id, name, passwordHash, email);
     }
 
-    public Teacher(Long id, String name, String passwordHash, Set<Role> roles) {
-        super(id, name, passwordHash, roles);
-    }
-
-    public Teacher(String name, String passwordHash, Department department, Set<Role> roles) {
-        super(name, passwordHash, roles);
+    public Teacher(Long id, String name, String passwordHash, String email, Department department) {
+        super(id, name, passwordHash, email);
         this.department = department;
     }
 
-    public Teacher(Long id, String name, String passwordHash, Department department, Set<Role> roles) {
-        super(id, name, passwordHash, roles);
-        this.department = department;
+    public Teacher(Long id, String name, String passwordHash, String email, Set<Role> roles) {
+        super(id, name, passwordHash, email, roles);
     }
 
+    public Teacher(Long id, String name, String passwordHash, String email, Department department, Set<Role> roles) {
+        super(id, name, passwordHash, email, roles);
+        this.department = department;
+    }
 
     public Department getDepartment() {
         return department;
@@ -86,26 +85,30 @@ public class Teacher extends User {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, name, passwordHash);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Teacher teacher = (Teacher) o;
+        return Objects.equals(department, teacher.department);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Teacher other = (Teacher) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name)
-                && Objects.equals(passwordHash, other.passwordHash);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), department);
     }
 
     @Override
     public String toString() {
-        return "Teacher [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + "]";
+        return "Teacher{" +
+                "department=" + department +
+                ", disciplines=" + disciplines +
+                ", lessons=" + lessons +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
-
 }

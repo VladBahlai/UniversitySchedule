@@ -20,6 +20,7 @@
         <thead>
         <tr>
             <th scope="col">Name</th>
+            <th scope="col">Email</th>
             <th scope="col">Roles</th>
             <th></th>
         </tr>
@@ -29,6 +30,7 @@
         </tr>
         <tr th:each="user : ${users}">
             <td th:text="${user.getName()}"></td>
+            <td th:text="${user.getEmail()}"></td>
             <td>
                 <th:block th:each="role,iterStat :${user.getRoles()}">
                     <span th:text="${role.getName()} + ${!iterStat.last?', ':''}"></span>

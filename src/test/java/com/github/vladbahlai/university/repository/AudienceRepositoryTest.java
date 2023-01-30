@@ -56,7 +56,7 @@ class AudienceRepositoryTest {
         Specialty specialty = specialtyRepo.save(new Specialty("test"));
         Discipline discipline = disciplineRepo.save(new Discipline("math", 2.0, 15, Course.THIRD, specialty));
         Group group = groupRepo.save(new Group("PA-32", Course.THIRD, specialty));
-        Teacher teacher = teacherRepo.save(new Teacher("teacher", "1234"));
+        Teacher teacher = teacherRepo.save(new Teacher("teacher", "1234","email@example.com"));
         TimeSpan firstTimeSpan = timeSpanRepo.save(new TimeSpan(1, LocalTime.of(10, 43, 12), LocalTime.of(10, 45, 12)));
         TimeSpan secondTimeSpan = timeSpanRepo.save(new TimeSpan(2, LocalTime.of(10, 43, 12), LocalTime.of(10, 45, 12)));
         Audience firstAudience = audienceRepo.save(new Audience("test1"));

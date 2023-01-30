@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Student;
 import com.github.vladbahlai.university.service.GroupService;
 import com.github.vladbahlai.university.service.RoleService;
@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -56,8 +57,11 @@ public class StudentController {
             studentService.saveStudent(student);
             logger.info("Created student " + student);
             redirectAttributes.addFlashAttribute("success", "Student with name " + student.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        catch (ConstraintViolationException e){
+            redirectAttributes.addFlashAttribute("error", "Email is not valid.");
         }
         return "redirect:/students";
     }
@@ -87,8 +91,11 @@ public class StudentController {
             studentService.saveStudent(student);
             logger.info("Updated student with id = " + student.getId());
             redirectAttributes.addFlashAttribute("success", "Student with name " + student.getName() + " updated.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        catch (ConstraintViolationException e){
+            redirectAttributes.addFlashAttribute("error", "Email is not valid.");
         }
         return "redirect:/students";
     }

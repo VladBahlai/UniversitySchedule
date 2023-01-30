@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Audience;
 import com.github.vladbahlai.university.model.TimeSpan;
 import com.github.vladbahlai.university.repository.AudienceRepository;
@@ -42,12 +42,12 @@ public class AudienceServiceImpl implements AudienceService {
 
     @Override
     @Transactional
-    public Audience saveAudience(Audience audience) throws UniqueNameConstraintException {
+    public Audience saveAudience(Audience audience) throws UniqueConstraintException {
         if (repo.existsByName(audience.getName()) && audience.getId() == null) {
-            throw new UniqueNameConstraintException("Audience with " + audience.getName() + " name already exist.");
+            throw new UniqueConstraintException("Audience with " + audience.getName() + " name already exist.");
         } else if (audience.getId() != null && repo.existsById(audience.getId()) && repo.existsByName(audience.getName())) {
             if (!audience.getName().equals(repo.findById(audience.getId()).get().getName())) {
-                throw new UniqueNameConstraintException("Audience with " + audience.getName() + " name already exist.");
+                throw new UniqueConstraintException("Audience with " + audience.getName() + " name already exist.");
             }
         }
         return repo.save(audience);

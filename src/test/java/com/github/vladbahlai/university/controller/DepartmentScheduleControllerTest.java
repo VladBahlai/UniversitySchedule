@@ -42,9 +42,9 @@ class DepartmentScheduleControllerTest {
 
     @Test
     void shouldReturnDepartmentScheduleView() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         Department department = new Department(1L, "test");
-        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user", department));
+        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user","email@example.com", department));
         this.mockMvc
                 .perform(get("/departmentSchedule").with(user(userDetails)))
                 .andExpect(status().isOk())
@@ -54,14 +54,14 @@ class DepartmentScheduleControllerTest {
 
     @Test
     void shouldReturnDepartmentScheduleDataWithoutParams() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         Department department = new Department(1L, "test");
-        Teacher teacher = new Teacher(1L, "user", "user", department);
+        Teacher teacher = new Teacher(1L, "user", "user","email@example.com", department);
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
-                        new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")), new Teacher(1L, "test", "123"),
+                        new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")), new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10), new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"), TypeOfLesson.PRACTICE));
         when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(teacher);
@@ -79,14 +79,14 @@ class DepartmentScheduleControllerTest {
 
     @Test
     void shouldReturnDepartmentScheduleDataWithParams() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         Department department = new Department(1L, "test");
-        Teacher teacher = new Teacher(1L, "user", "user", department);
+        Teacher teacher = new Teacher(1L, "user", "user","email@example.com", department);
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
-                        new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")), new Teacher(1L, "test", "123"),
+                        new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")), new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10), new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"), TypeOfLesson.PRACTICE));
         when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(teacher);

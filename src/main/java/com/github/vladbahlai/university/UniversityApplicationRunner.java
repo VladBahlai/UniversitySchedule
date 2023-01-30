@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.misc.*;
 import com.github.vladbahlai.university.model.Student;
 import com.github.vladbahlai.university.model.Teacher;
@@ -62,12 +62,12 @@ public class UniversityApplicationRunner implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws UniqueNameConstraintException {
+    public void run(ApplicationArguments args) throws UniqueConstraintException {
         if (groupService.getGroups().isEmpty() && timeSpanService.getTimeSpans().isEmpty() && audienceService.getAudiences().isEmpty()) {
-            userService.saveUser(new User("admin", "admin", Collections.singleton(roleService.getRoleById(1L))));
-            userService.saveUser(new User("staff", "staff", Collections.singleton(roleService.getRoleById(2L))));
-            userService.saveUser(new User("fakeTeacher", "teacher", Collections.singleton(roleService.getRoleById(3L))));
-            userService.saveUser(new User("fakeStudent", "student", Collections.singleton(roleService.getRoleById(4L))));
+            userService.saveUser(new User("admin", "admin", "admin@example.com", Collections.singleton(roleService.getRoleById(1L))));
+            userService.saveUser(new User("staff", "staff", "staff@example.com", Collections.singleton(roleService.getRoleById(2L))));
+            userService.saveUser(new User("fakeTeacher", "teacher", "fakeTeacher@example.com", Collections.singleton(roleService.getRoleById(3L))));
+            userService.saveUser(new User("fakeStudent", "student", "fakeStudent@example.com", Collections.singleton(roleService.getRoleById(4L))));
             logger.info("Created default users.");
 
             audienceGenerator.generateAudienceData(50, 100, 400);
@@ -80,11 +80,11 @@ public class UniversityApplicationRunner implements ApplicationRunner {
             lessonGenerator.generateLessonDate(LocalDate.now(), 30);
 
             Teacher teacher = teacherService.getTeacherById(teacherService.getTeachers().get(2).getId());
-            teacher.setName("teacher");
-            teacher.setPasswordHash("teacher");
+            teacher.setEmail("teacher@example.com");
+            teacher.setPasswordHash("teacher@example.com");
             teacherService.saveTeacher(teacher);
             Student student = studentService.getStudentById(10L);
-            student.setName("student");
+            student.setEmail("student@example.com");
             student.setPasswordHash("student");
             studentService.saveStudent(student);
             logger.info("Generated random data.");

@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.TimeSpan;
 import com.github.vladbahlai.university.service.TimeSpanService;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class TimeSpanController {
             timeSpanService.saveTimeSpan(timeSpan);
             logger.info("Created timeSpan " + timeSpan);
             redirectAttributes.addFlashAttribute("success", "Time span with number of lesson " + timeSpan.getNumberOfLesson() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/timeSpans";
@@ -72,7 +72,7 @@ public class TimeSpanController {
             timeSpanService.saveTimeSpan(timeSpan);
             logger.info("Updated timeSpan with id = " + timeSpan.getId());
             redirectAttributes.addFlashAttribute("success", "Time span with number of lesson " + timeSpan.getNumberOfLesson() + " updated.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/timeSpans";

@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Department;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public interface DepartmentService {
     void deleteDepartment(Long id);
 
     @Transactional
-    Department saveDepartment(Department department) throws UniqueNameConstraintException;
+    Department saveDepartment(Department department) throws UniqueConstraintException;
 
     @PreAuthorize("hasAuthority('READ_DEPARTMENT')")
     @Transactional(readOnly = true)

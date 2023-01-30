@@ -1,7 +1,7 @@
 package com.github.vladbahlai.university.misc;
 
 import com.github.vladbahlai.university.enums.Course;
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Group;
 import com.github.vladbahlai.university.model.Specialty;
 import com.github.vladbahlai.university.service.GroupService;
@@ -28,7 +28,7 @@ class GroupGeneratorTest {
     GroupGenerator generator;
 
     @Test
-    void shouldGenerateGroups() throws UniqueNameConstraintException {
+    void shouldGenerateGroups() throws UniqueConstraintException {
         List<Specialty> specialtyList = new ArrayList<>(Arrays.asList(new Specialty(), new Specialty()));
         generator.generateGroupData(specialtyList, 3);
         verify(service, times(3 * specialtyList.size() * Course.values().length)).saveGroup(any(Group.class));

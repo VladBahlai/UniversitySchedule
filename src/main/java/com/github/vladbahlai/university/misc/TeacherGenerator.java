@@ -1,19 +1,19 @@
 package com.github.vladbahlai.university.misc;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Department;
 import com.github.vladbahlai.university.model.Discipline;
 import com.github.vladbahlai.university.model.Role;
 import com.github.vladbahlai.university.model.Teacher;
 import com.github.vladbahlai.university.service.RoleService;
 import com.github.vladbahlai.university.service.TeacherService;
-import com.github.vladbahlai.university.utils.RandomGenerator;
-import com.github.vladbahlai.university.utils.Values;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+
+import static com.github.vladbahlai.university.utils.RandomGenerator.*;
 
 @Service
 public class TeacherGenerator {
@@ -26,14 +26,15 @@ public class TeacherGenerator {
         this.roleService = roleService;
     }
 
-    public void generateTeacherData(List<Department> departments, int teachersInDepartment) throws UniqueNameConstraintException {
+    public void generateTeacherData(List<Department> departments, int teachersInDepartment) throws UniqueConstraintException {
         Set<Role> teacherRoles = new HashSet<>(Arrays.asList(roleService.getRoleByName("ROLE_TEACHER")));
         if (!departments.isEmpty()) {
-            List<String> names = new ArrayList<>(RandomGenerator.generateName(departments.size() * teachersInDepartment, Values.FIRST_NAMES, Values.LAST_NAMES));
+            List<String> names = new ArrayList<>(generateName(departments.size() * teachersInDepartment));
+            List<String> emails = new ArrayList<>(generateCustomEmail(departments.size() * teachersInDepartment));
             int counter = 0;
             for (Department department : departments) {
                 for (int i = 0; i < teachersInDepartment; i++) {
-                    teacherService.saveTeacher(new Teacher(names.get(counter), RandomGenerator.generatePassword(10), department, teacherRoles));
+                    teacherService.saveTeacher(new Teacher(names.get(counter), generatePassword(10), emails.get(counter), department, teacherRoles));
                     counter++;
                 }
             }
@@ -59,7 +60,7 @@ public class TeacherGenerator {
     }
 
     private Set<Discipline> getRandomDisciplineSet(List<Discipline> disciplines, int count) {
-        int randomInt = RandomGenerator.getRandomInt(1, count);
+        int randomInt = getRandomInt(1, count);
         Set<Discipline> disciplineSet = new HashSet<>();
         if (!disciplines.isEmpty()) {
             while (disciplineSet.size() != randomInt) {

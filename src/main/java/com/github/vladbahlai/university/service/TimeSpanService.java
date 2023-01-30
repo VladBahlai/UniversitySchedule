@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.TimeSpan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public interface TimeSpanService {
     void deleteTimeSpan(Long id);
 
     @Transactional
-    TimeSpan saveTimeSpan(TimeSpan timeSpan) throws UniqueNameConstraintException;
+    TimeSpan saveTimeSpan(TimeSpan timeSpan) throws UniqueConstraintException;
 
     @PreAuthorize("hasAuthority('READ_TIMESPAN')")
     @Transactional(readOnly = true)

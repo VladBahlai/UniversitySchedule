@@ -4,12 +4,14 @@ import com.github.vladbahlai.university.enums.Course;
 import com.github.vladbahlai.university.model.Discipline;
 import com.github.vladbahlai.university.model.Specialty;
 import com.github.vladbahlai.university.service.DisciplineService;
-import com.github.vladbahlai.university.utils.RandomGenerator;
-import com.github.vladbahlai.university.utils.Values;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.github.vladbahlai.university.utils.RandomGenerator.generateName;
+import static com.github.vladbahlai.university.utils.RandomGenerator.getRandomDouble;
+import static com.github.vladbahlai.university.utils.Values.DISCIPLINE_NAMES;
 
 @Service
 public class DisciplineGenerator {
@@ -23,9 +25,9 @@ public class DisciplineGenerator {
     public void generateDisciplineData(List<Specialty> specialties, int disciplinesInSpecialty) {
         specialties.forEach(specialty -> {
             for (Course course : Course.values()) {
-                List<String> names = new ArrayList<>(RandomGenerator.generateName(disciplinesInSpecialty, Values.DISCIPLINE_NAMES));
+                List<String> names = new ArrayList<>(generateName(disciplinesInSpecialty, DISCIPLINE_NAMES));
                 for (String name : names) {
-                    double ects =  RandomGenerator.getRandomDouble(30, 50);
+                    double ects =  getRandomDouble(30, 50);
                     disciplineService.saveDiscipline(new Discipline(name, ects, (int) (ects*30), course, specialty));
                 }
             }

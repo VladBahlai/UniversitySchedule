@@ -35,6 +35,7 @@ create table users
     user_type     text,
     name          text   not null,
     password_hash text   not null,
+    email         text   not null,
     group_id      bigint references groups (id) on delete set null,
     department_id bigint references departments (id) on delete set null
 );

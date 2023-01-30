@@ -1,7 +1,7 @@
 package com.github.vladbahlai.university.misc;
 
 import com.github.vladbahlai.university.enums.Course;
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Department;
 import com.github.vladbahlai.university.model.Discipline;
 import com.github.vladbahlai.university.model.Specialty;
@@ -31,7 +31,7 @@ class TeacherGeneratorTest {
     TeacherGenerator generator;
 
     @Test
-    void shouldGenerateTeachers() throws UniqueNameConstraintException {
+    void shouldGenerateTeachers() throws UniqueConstraintException {
         List<Department> departments = new ArrayList<>(Arrays.asList(new Department("Department")));
         departments.get(0).getSpecialties().add(new Specialty("Specialty"));
         generator.generateTeacherData(departments, 7);
@@ -42,7 +42,7 @@ class TeacherGeneratorTest {
     @Test
     void shouldGenerateTeacherDisciplines() {
         Department department = new Department(1L, "testDepartment");
-        List<Teacher> teacherList = new ArrayList<>(Arrays.asList(new Teacher(1L, "Adam", "12345", department)));
+        List<Teacher> teacherList = new ArrayList<>(Arrays.asList(new Teacher(1L, "Adam", "12345","email@example.com" ,department)));
         List<Discipline> disciplineList =
                 new ArrayList<>(Arrays.asList(
                         new Discipline("disc1", 4.0, 120, Course.FIRST, new Specialty(1L, "specialty1", department)),
@@ -58,7 +58,7 @@ class TeacherGeneratorTest {
     @Test
     void shouldNotGenerateTeacherDisciplinesWhenDifferentDepartments() {
         Department department = new Department(1L, "testDepartment");
-        List<Teacher> teacherList = new ArrayList<>(Arrays.asList(new Teacher(1L, "Adam", "12345", new Department("test"))));
+        List<Teacher> teacherList = new ArrayList<>(Arrays.asList(new Teacher(1L, "Adam", "12345","email@example.com" ,department)));
         List<Discipline> disciplineList =
                 new ArrayList<>(Arrays.asList(
                         new Discipline("disc1", 4.0, 120, Course.FIRST, new Specialty(1L, "specialty1", department)),

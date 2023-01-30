@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Specialty;
 import com.github.vladbahlai.university.repository.SpecialtyRepository;
 import com.github.vladbahlai.university.service.SpecialtyService;
@@ -40,12 +40,12 @@ public class SpecialtyServiceImpl implements SpecialtyService {
 
     @Override
     @Transactional
-    public Specialty saveSpecialty(Specialty specialty) throws UniqueNameConstraintException {
+    public Specialty saveSpecialty(Specialty specialty) throws UniqueConstraintException {
         if (repo.existsByName(specialty.getName()) && specialty.getId() == null) {
-            throw new UniqueNameConstraintException("Specialty with " + specialty.getName() + " name already exist.");
+            throw new UniqueConstraintException("Specialty with " + specialty.getName() + " name already exist.");
         } else if (specialty.getId() != null && repo.existsById(specialty.getId()) && repo.existsByName(specialty.getName())) {
             if (!specialty.getName().equals(repo.findById(specialty.getId()).get().getName())) {
-                throw new UniqueNameConstraintException("Specialty with " + specialty.getName() + " name already exist.");
+                throw new UniqueConstraintException("Specialty with " + specialty.getName() + " name already exist.");
             }
         }
         return repo.save(specialty);

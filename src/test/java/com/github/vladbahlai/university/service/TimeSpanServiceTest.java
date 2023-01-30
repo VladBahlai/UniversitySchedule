@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.TimeSpan;
 import com.github.vladbahlai.university.repository.TimeSpanRepository;
 import com.github.vladbahlai.university.service.impl.TimeSpanServiceImpl;
@@ -25,7 +25,7 @@ class TimeSpanServiceTest {
     TimeSpanService service;
 
     @Test
-    void shouldCreateTimeSpan() throws UniqueNameConstraintException {
+    void shouldCreateTimeSpan() throws UniqueConstraintException {
         TimeSpan timeSpan = new TimeSpan(1, LocalTime.of(12, 12), LocalTime.of(12, 12));
         TimeSpan expected = new TimeSpan(1L, 1, LocalTime.of(12, 12), LocalTime.of(12, 12));
         when(repository.existsByNumberOfLesson(timeSpan.getNumberOfLesson())).thenReturn(false);
@@ -35,7 +35,7 @@ class TimeSpanServiceTest {
     }
 
     @Test
-    void shouldUpdateTimeSpan() throws UniqueNameConstraintException {
+    void shouldUpdateTimeSpan() throws UniqueConstraintException {
         TimeSpan expected = new TimeSpan(1L, 1, LocalTime.of(12, 12), LocalTime.of(12, 12));
         when(repository.existsByNumberOfLesson(expected.getNumberOfLesson())).thenReturn(true);
         when(repository.existsById(expected.getId())).thenReturn(true);
@@ -51,11 +51,11 @@ class TimeSpanServiceTest {
         TimeSpan firstTimeSpan = new TimeSpan(1, LocalTime.of(12, 12), LocalTime.of(12, 12));
         TimeSpan secondTimeSpan = new TimeSpan(1L, 1, LocalTime.of(12, 12), LocalTime.of(12, 12));
         when(repository.existsByNumberOfLesson(firstTimeSpan.getNumberOfLesson())).thenReturn(true);
-        Exception firstException = assertThrows(UniqueNameConstraintException.class, () -> service.saveTimeSpan(firstTimeSpan));
+        Exception firstException = assertThrows(UniqueConstraintException.class, () -> service.saveTimeSpan(firstTimeSpan));
         when(repository.existsByNumberOfLesson(secondTimeSpan.getNumberOfLesson())).thenReturn(true);
         when(repository.existsById(secondTimeSpan.getId())).thenReturn(true);
         when(repository.findById(secondTimeSpan.getId())).thenReturn(Optional.of(new TimeSpan(1L, 2, LocalTime.of(12, 12), LocalTime.of(12, 12))));
-        Exception secondException = assertThrows(UniqueNameConstraintException.class, () -> service.saveTimeSpan(secondTimeSpan));
+        Exception secondException = assertThrows(UniqueConstraintException.class, () -> service.saveTimeSpan(secondTimeSpan));
         String expectedExceptionMessage = "TimeSpan with 1 number already exist.";
         assertEquals(expectedExceptionMessage, firstException.getMessage());
         assertEquals(expectedExceptionMessage, secondException.getMessage());

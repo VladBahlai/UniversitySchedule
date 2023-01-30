@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Department;
 import com.github.vladbahlai.university.service.DepartmentService;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class DepartmentController {
             departmentService.saveDepartment(department);
             logger.info("Created department " + department);
             redirectAttributes.addFlashAttribute("success", "Department with name " + department.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/departments";
@@ -72,7 +72,7 @@ public class DepartmentController {
             departmentService.saveDepartment(department);
             logger.info("Updated department with id = " + department.getId());
             redirectAttributes.addFlashAttribute("success", "Department with name " + department.getName() + " updated.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/departments";

@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Student;
 import com.github.vladbahlai.university.repository.StudentRepository;
 import com.github.vladbahlai.university.service.StudentService;
@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public Student saveStudent(Student student) throws UniqueNameConstraintException {
+    public Student saveStudent(Student student) throws UniqueConstraintException {
         if (student.getId() != null) {
             Student studentDB = repo.findById(student.getId()).orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND + student.getId()));
             if (!studentDB.getPasswordHash().equals(student.getPasswordHash())) {
@@ -53,11 +53,12 @@ public class StudentServiceImpl implements StudentService {
         } else {
             student.setPasswordHash(passwordEncoder.encode(student.getPasswordHash()));
         }
-        if ((repo.existsByName(student.getName()) && student.getId() == null) ||
+
+        if ((repo.existsByEmail(student.getEmail()) && student.getId() == null) ||
                 (student.getId() != null &&
-                        repo.existsByName(student.getName()) &&
-                        !student.getName().equals(repo.findById(student.getId()).orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND + student.getId())).getName()))) {
-            throw new UniqueNameConstraintException("Student with " + student.getName() + " name already exist.");
+                        repo.existsByEmail(student.getEmail()) &&
+                        !student.getEmail().equals(repo.findById(student.getId()).orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND + student.getId())).getEmail()))) {
+            throw new UniqueConstraintException("Student with " + student.getEmail() + " email already exist.");
         }
         return repo.save(student);
     }

@@ -17,7 +17,7 @@ public class TeacherMapperTest {
 
     @Test
     void shouldReturnTeacherDTO(){
-        Teacher teacher = new Teacher(1L,"user","password",new Department(1L,"test"));
+        Teacher teacher = new Teacher(1L,"user","password","email@example.com",new Department(1L,"test"));
         TeacherDTO expected = new TeacherDTO("1","user","1","test");
         TeacherDTO actual = teacherMapper.toTeacherDTO(teacher);
         assertEquals(expected,actual);

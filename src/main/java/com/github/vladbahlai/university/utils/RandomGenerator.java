@@ -1,32 +1,36 @@
 package com.github.vladbahlai.university.utils;
 
+import com.github.javafaker.Faker;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.github.vladbahlai.university.utils.Values.FIRST_NAMES;
-import static com.github.vladbahlai.university.utils.Values.LAST_NAMES;
-
 public class RandomGenerator {
 
-    public static Set<String> generateFullName(int count) {
-        Set<String> names = new HashSet<>();
-        while (names.size() != count) {
-            names.add(getRandomArrayValue(FIRST_NAMES) +
-                    " " + getRandomArrayValue(LAST_NAMES));
+    private final static Faker generator = new Faker();
+
+    public static Set<String> generateEmail(int count) {
+        Set<String> emails = new HashSet<>();
+        while (emails.size() != count) {
+            emails.add(generator.internet().emailAddress());
         }
-        return names;
+        return emails;
     }
 
-    public static Set<String> generateName(int count, String[] firstArray, String[] secondArray) {
+    public static Set<String> generateCustomEmail(int count) {
+        Set<String> emails = new HashSet<>();
+        while (emails.size() != count) {
+            emails.add(generator.internet().safeEmailAddress());
+        }
+        return emails;
+    }
+
+    public static Set<String> generateName(int count) {
         Set<String> names = new HashSet<>();
         while (names.size() != count) {
-            if (getRandomBoolean()) {
-                names.add(getRandomArrayValue(firstArray));
-            } else {
-                names.add(getRandomArrayValue(secondArray));
-            }
+            names.add(generator.name().name());
         }
         return names;
     }

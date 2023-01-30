@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.*;
 import com.github.vladbahlai.university.repository.StudentRepository;
 import com.github.vladbahlai.university.repository.TeacherRepository;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public MyUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repo.findByName(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = repo.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found."));
         Set<Privilege> privileges = new HashSet<>();
         for (Role role : user.getRoles()) {
             privileges.addAll(role.getPrivileges());
@@ -47,13 +47,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User saveUser(User user) throws UniqueNameConstraintException {
-        if ((repo.existsByName(user.getName()) && user.getId() == null) ||
+    public User saveUser(User user) throws UniqueConstraintException {
+        if ((repo.existsByEmail(user.getEmail()) && user.getId() == null) ||
                 (user.getId() != null &&
-                        repo.existsByName(user.getName()) &&
-                        !user.getName().equals(repo.findById(user.getId())
-                                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND + user.getId())).getName()))) {
-            throw new UniqueNameConstraintException("User with " + user.getName() + " name already exist.");
+                        repo.existsByEmail(user.getEmail()) &&
+                        !user.getEmail().equals(repo.findById(user.getId())
+                                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND + user.getId())).getEmail()))) {
+            throw new UniqueConstraintException("User with " + user.getEmail() + " email already exist.");
         }
         if (user.getId() != null) {
             if (!repo.findById(user.getId())
@@ -63,13 +63,13 @@ public class UserServiceImpl implements UserService {
             if (teacherRepository.existsById(user.getId())) {
                 Teacher teacher = teacherRepository.findById(user.getId())
                         .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND + user.getId()));
-                teacher.setName(user.getName());
+                teacher.setName(user.getEmail());
                 teacher.setPasswordHash(user.getPasswordHash());
                 return teacherRepository.save(teacher);
             } else if (studentRepository.existsById(user.getId())) {
                 Student student = studentRepository.findById(user.getId())
                         .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND + user.getId()));
-                student.setName(user.getName());
+                student.setName(user.getEmail());
                 student.setPasswordHash(user.getPasswordHash());
                 return studentRepository.save(student);
             }

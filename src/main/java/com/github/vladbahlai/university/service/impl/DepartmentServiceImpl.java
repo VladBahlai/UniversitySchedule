@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service.impl;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Department;
 import com.github.vladbahlai.university.repository.DepartmentRepository;
 import com.github.vladbahlai.university.service.DepartmentService;
@@ -41,12 +41,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
-    public Department saveDepartment(Department department) throws UniqueNameConstraintException {
+    public Department saveDepartment(Department department) throws UniqueConstraintException {
         if (repo.existsByName(department.getName()) && department.getId() == null) {
-            throw new UniqueNameConstraintException("Department with " + department.getName() + " name already exist.");
+            throw new UniqueConstraintException("Department with " + department.getName() + " name already exist.");
         } else if (department.getId() != null && repo.existsById(department.getId()) && repo.existsByName(department.getName())) {
             if (!department.getName().equals(repo.findById(department.getId()).get().getName())) {
-                throw new UniqueNameConstraintException("Department with " + department.getName() + " name already exist.");
+                throw new UniqueConstraintException("Department with " + department.getName() + " name already exist.");
             }
         }
         return repo.save(department);

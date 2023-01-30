@@ -127,8 +127,8 @@ class DisciplineControllerTest {
 
     @Test
     void shouldReturnDisciplinesOfTeacher() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
-        Teacher teacher = new Teacher(1L, "user", "user");
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        Teacher teacher = new Teacher(1L, "user", "user","email@example.com");
         Discipline firstDiscipline = new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test"));
         Discipline secondDiscipline = new Discipline(3L, "test", 4.0, 150, Course.FIRST, new Specialty(1L, "test"));
         teacher.getDisciplines().add(firstDiscipline);
@@ -145,8 +145,8 @@ class DisciplineControllerTest {
 
     @Test
     void shouldReturnDisciplinesOfStudent() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
-        Student student = new Student(1L, "user", "user", new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        Student student = new Student(1L, "user", "user","email@example.com", new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")));
         List<Discipline> disciplines = Arrays.asList(
                 new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
                 new Discipline(3L, "test", 4.0, 150, Course.FIRST, new Specialty(1L, "test")));
@@ -162,7 +162,7 @@ class DisciplineControllerTest {
 
     @Test
     void shouldRedirectToHomeIfUserStudentOrTeacher() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         when(studentService.getStudentById(userDetails.getUser().getId())).thenThrow(IllegalArgumentException.class);
         when(teacherService.getTeacherById(userDetails.getUser().getId())).thenThrow(IllegalArgumentException.class);
         this.mockMvc

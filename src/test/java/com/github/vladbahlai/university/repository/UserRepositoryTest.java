@@ -18,7 +18,7 @@ class UserRepositoryTest {
 
     @Test
     void shouldReadAndWriteUser() {
-        User expected = userRepository.save(new User("test", "test"));
+        User expected = userRepository.save(new User("test", "test","username@domain.com"));
         Optional<User> actual = userRepository.findById(expected.getId());
 
         assertTrue(actual.isPresent());

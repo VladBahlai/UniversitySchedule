@@ -1,7 +1,7 @@
 package com.github.vladbahlai.university.service;
 
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Audience;
 import com.github.vladbahlai.university.model.TimeSpan;
 import com.github.vladbahlai.university.repository.AudienceRepository;
@@ -56,7 +56,7 @@ class AudienceServiceTest {
     }
 
     @Test
-    void shouldCreateAudience() throws UniqueNameConstraintException {
+    void shouldCreateAudience() throws UniqueConstraintException {
         Audience audience = new Audience("1");
         Audience expected = new Audience(1L, "1");
         when(repository.existsByName(audience.getName())).thenReturn(false);
@@ -67,7 +67,7 @@ class AudienceServiceTest {
     }
 
     @Test
-    void shouldUpdateAudience() throws UniqueNameConstraintException {
+    void shouldUpdateAudience() throws UniqueConstraintException {
         Audience expected = new Audience(1L, "1");
         when(repository.existsByName(expected.getName())).thenReturn(true);
         when(repository.existsById(expected.getId())).thenReturn(true);
@@ -83,11 +83,11 @@ class AudienceServiceTest {
         Audience firstAudience = new Audience("a");
         Audience secondAudience = new Audience(1L, "a");
         when(repository.existsByName(firstAudience.getName())).thenReturn(true);
-        Exception firstException = assertThrows(UniqueNameConstraintException.class, () -> service.saveAudience(firstAudience));
+        Exception firstException = assertThrows(UniqueConstraintException.class, () -> service.saveAudience(firstAudience));
         when(repository.existsByName(secondAudience.getName())).thenReturn(true);
         when(repository.existsById(secondAudience.getId())).thenReturn(true);
         when(repository.findById(secondAudience.getId())).thenReturn(Optional.of(new Audience(1L, "2")));
-        Exception secondException = assertThrows(UniqueNameConstraintException.class, () -> service.saveAudience(secondAudience));
+        Exception secondException = assertThrows(UniqueConstraintException.class, () -> service.saveAudience(secondAudience));
         String expectedExceptionMessage = "Audience with a name already exist.";
         assertEquals(expectedExceptionMessage, firstException.getMessage());
         assertEquals(expectedExceptionMessage, secondException.getMessage());

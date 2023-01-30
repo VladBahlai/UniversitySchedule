@@ -48,7 +48,7 @@ class LessonControllerTest {
     void shouldReturnViewWithLessonPage() throws Exception {
         Discipline discipline = new Discipline(1L, "name", 3.0, 120, Course.FIRST, new Specialty(1L, "test"));
         TimeSpan timeSpan = new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12));
-        Teacher teacher = new Teacher(1L, "test", "123");
+        Teacher teacher = new Teacher(1L, "test", "123","email@example.com");
         Audience audience = new Audience(1L, "name");
         Group group = new Group("GZ-12", Course.FIRST, new Specialty(1L, "test"));
 
@@ -76,7 +76,7 @@ class LessonControllerTest {
         List<TimeSpan> timeSpans = Collections.singletonList(
                 new TimeSpan(1L, 1, LocalTime.of(14, 10), LocalTime.of(14, 12)));
         List<Teacher> teachers = Collections.singletonList(
-                new Teacher(1L, "test", "123"));
+                new Teacher(1L, "test", "123","email@example.com"));
         List<Audience> audiences = Collections.singletonList(new Audience(1L, "test"));
 
         when(audienceService.getAudiences()).thenReturn(audiences);
@@ -102,7 +102,7 @@ class LessonControllerTest {
     void shouldCreateLesson() throws Exception {
         Discipline discipline = new Discipline(1L, "name", 3.0, 120, Course.FIRST, new Specialty(1L, "test"));
         TimeSpan timeSpan = new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12));
-        Teacher teacher = new Teacher(1L, "test", "123");
+        Teacher teacher = new Teacher(1L, "test", "123","email@example.com");
         Audience audience = new Audience(1L, "name");
         Group group = new Group("GZ-12", Course.FIRST, new Specialty(1L, "test"));
         Lesson lesson = new Lesson(discipline, group, teacher, LocalDate.of(2022, 12, 10), timeSpan, audience, TypeOfLesson.PRACTICE);
@@ -138,7 +138,7 @@ class LessonControllerTest {
         List<TimeSpan> timeSpans = Collections.singletonList(
                 new TimeSpan(1L, 1, LocalTime.of(14, 10), LocalTime.of(14, 12)));
         List<Teacher> teachers = Collections.singletonList(
-                new Teacher(1L, "test", "123"));
+                new Teacher(1L, "test", "123","email@example.com"));
         List<Audience> audiences = Collections.singletonList(new Audience(1L, "test"));
         Lesson lesson = new Lesson(1L,
                 disciplines.get(0), groups.get(0), teachers.get(0), LocalDate.of(2022, 12, 10),
@@ -167,7 +167,7 @@ class LessonControllerTest {
     void shouldUpdateLesson() throws Exception {
         Discipline discipline = new Discipline(1L, "name", 3.0, 120, Course.FIRST, new Specialty(1L, "test"));
         TimeSpan timeSpan = new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12));
-        Teacher teacher = new Teacher(1L, "test", "123");
+        Teacher teacher = new Teacher(1L, "test", "123","email@example.com");
         Audience audience = new Audience(1L, "name");
         Group group = new Group("GZ-12", Course.FIRST, new Specialty(1L, "test"));
         Lesson lesson = new Lesson(1L, discipline, group, teacher, LocalDate.of(2022, 12, 10), timeSpan, audience, TypeOfLesson.PRACTICE);

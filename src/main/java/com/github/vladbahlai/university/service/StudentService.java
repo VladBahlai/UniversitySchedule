@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public interface StudentService {
     void deleteStudent(Long id);
 
     @Transactional
-    Student saveStudent(Student student) throws UniqueNameConstraintException;
+    Student saveStudent(Student student) throws UniqueConstraintException;
 
     @PreAuthorize("hasAuthority('READ_STUDENT')")
     @Transactional(readOnly = true)

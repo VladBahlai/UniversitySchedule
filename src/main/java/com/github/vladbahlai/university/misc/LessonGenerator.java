@@ -4,13 +4,14 @@ import com.github.vladbahlai.university.enums.Course;
 import com.github.vladbahlai.university.enums.TypeOfLesson;
 import com.github.vladbahlai.university.model.*;
 import com.github.vladbahlai.university.service.*;
-import com.github.vladbahlai.university.utils.RandomGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.github.vladbahlai.university.utils.RandomGenerator.*;
 
 @Service
 public class LessonGenerator {
@@ -37,10 +38,10 @@ public class LessonGenerator {
                     List<Teacher> teachers = teacherService.getTeachers();
                     List<Audience> audiences = audienceService.getAudiences();
                     for (Group group : groupService.getGroups()) {
-                        if (RandomGenerator.getRandomBoolean()) {
-                            Audience audience = RandomGenerator.getRandomListValue(audiences);
-                            Teacher teacher = RandomGenerator.getRandomListValue(teachers);
-                            if (saveRandomLesson(timeSpan, group, teacher, startDate, TypeOfLesson.values()[RandomGenerator.getRandomInt(0, 4)], audience)) {
+                        if (getRandomBoolean()) {
+                            Audience audience = getRandomListValue(audiences);
+                            Teacher teacher = getRandomListValue(teachers);
+                            if (saveRandomLesson(timeSpan, group, teacher, startDate, TypeOfLesson.values()[getRandomInt(0, 4)], audience)) {
                                 audiences.remove(audience);
                                 teachers.remove(teacher);
                             }
@@ -65,7 +66,7 @@ public class LessonGenerator {
     private boolean saveRandomLesson(TimeSpan timeSpan, Group group, Teacher teacher, LocalDate date, TypeOfLesson type, Audience audience) {
         List<Discipline> disciplines = getCourseDiscipline(teacher, group.getCourse());
         if (!disciplines.isEmpty()) {
-            Discipline discipline = RandomGenerator.getRandomListValue(disciplines);
+            Discipline discipline = getRandomListValue(disciplines);
             lessonService.saveLesson(new Lesson(discipline, group, teacher, date, timeSpan, audience, type));
             return true;
         }

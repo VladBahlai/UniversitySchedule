@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Audience;
 import com.github.vladbahlai.university.service.AudienceService;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class AudienceController {
             audienceService.saveAudience(audience);
             logger.info("Created audience " + audience);
             redirectAttributes.addFlashAttribute("success", "Audience " + audience.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/audiences";
@@ -72,7 +72,7 @@ public class AudienceController {
             audienceService.saveAudience(audience);
             logger.info("Updated audience with id = " + audience.getId());
             redirectAttributes.addFlashAttribute("success", "Audience " + audience.getName() + " updated.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/audiences";

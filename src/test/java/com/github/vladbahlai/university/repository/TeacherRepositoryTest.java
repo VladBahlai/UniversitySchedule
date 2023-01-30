@@ -18,7 +18,7 @@ class TeacherRepositoryTest {
 
     @Test
     void shouldReadAndWriteTeacher() {
-        Teacher expected = repo.save(new Teacher("teacher", "1234"));
+        Teacher expected = repo.save(new Teacher("teacher", "1234","email@example.com"));
         Optional<Teacher> actual = repo.findById(expected.getId());
 
         assertTrue(actual.isPresent());

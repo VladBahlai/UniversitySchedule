@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Specialty;
 import com.github.vladbahlai.university.service.DepartmentService;
 import com.github.vladbahlai.university.service.SpecialtyService;
@@ -49,7 +49,7 @@ public class SpecialtyController {
             specialtyService.saveSpecialty(specialty);
             logger.info("Created specialty " + specialty);
             redirectAttributes.addFlashAttribute("success", "Specialty with name " + specialty.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/specialties";
@@ -78,7 +78,7 @@ public class SpecialtyController {
             specialtyService.saveSpecialty(specialty);
             logger.info("Updated lesson with id = " + specialty.getId());
             redirectAttributes.addFlashAttribute("success", "Specialty with name " + specialty.getName() + " updated.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/specialties";

@@ -15,27 +15,33 @@
 <div class="p-3">
     <h3 class="d-inline-block">User creating</h3>
     <form class="form-horizontal" th:method="POST" th:object="${user}" th:action="@{/admin/users}">
-            <div class="form-floating mb-3 w-25">
-                <label for="name">Name of user:</label>
-                <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name"
-                       required>
-            </div>
-            <div class="form-floating mb-3 w-25">
-                <label for="password">Password of user:</label>
-                <input th:field="*{passwordHash}" type="text" class="form-control" id="password" placeholder="Enter a password"
-                       required>
-            </div>
-            <div class="form mb-3 w-25">
-                <label>Choose roles for user:</label>
-                <select th:field="*{roles}" class="form-control select-picker" multiple id="roles" required>
-                    <option th:each="role: ${roles}"
-                            th:text="${role.getName()}"
-                            th:value="${role.getId()}"/>
-                </select>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Create user</button>
-            </div>
+        <div class="form-floating mb-3 w-25">
+            <label for="name">Name of user:</label>
+            <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Enter a name"
+                   required>
+        </div>
+        <div class="form-floating mb-3 w-25">
+            <label for="email">Email:</label>
+            <input th:field="*{email}" type="text" class="form-control" placeholder="Enter a email"
+                   id="email" required>
+        </div>
+        <div class="form-floating mb-3 w-25">
+            <label for="password">Password of user:</label>
+            <input th:field="*{passwordHash}" type="text" class="form-control" id="password"
+                   placeholder="Enter a password"
+                   required>
+        </div>
+        <div class="form mb-3 w-25">
+            <label>Choose roles for user:</label>
+            <select th:field="*{roles}" class="form-control select-picker" multiple id="roles" required>
+                <option th:each="role: ${roles}"
+                        th:text="${role.getName()}"
+                        th:value="${role.getId()}"/>
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Create user</button>
+        </div>
     </form>
 </div>
 <script>$('.select-picker').selectpicker();

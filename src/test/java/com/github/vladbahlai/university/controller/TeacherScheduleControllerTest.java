@@ -63,8 +63,8 @@ public class TeacherScheduleControllerTest {
     void shouldReturnTeachersDTO() throws Exception {
         Department department = new Department(1L, "test");
         List<Teacher> teacherList = Arrays.asList(
-                new Teacher(1L, "test", "123", department),
-                new Teacher(2L, "test", "123", department));
+                new Teacher(1L, "test", "123","email@example.com", department),
+                new Teacher(2L, "test", "123","email@example.com", department));
         department.getTeachers().addAll(teacherList);
         List<TeacherDTO> teacherDTOList = Arrays.asList(
                 new TeacherDTO("1", "test", "1", "test"),
@@ -87,13 +87,13 @@ public class TeacherScheduleControllerTest {
     @Test
     @WithMockUser(username = "test")
     void shouldReturnTeacherScheduleData() throws Exception {
-        Teacher teacher = new Teacher(1L, "test", "123");
+        Teacher teacher = new Teacher(1L, "test", "123","email@example.com");
         String date = "2022-11-04";
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
-                        new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")), new Teacher(1L, "test", "123"),
+                        new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")), new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10), new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"), TypeOfLesson.PRACTICE));
         when(teacherService.getTeacherById(teacher.getId())).thenReturn(teacher);

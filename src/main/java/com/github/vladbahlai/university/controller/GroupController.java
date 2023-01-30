@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.controller;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.Group;
 import com.github.vladbahlai.university.service.GroupService;
 import com.github.vladbahlai.university.service.SpecialtyService;
@@ -49,7 +49,7 @@ public class GroupController {
             groupService.saveGroup(group);
             logger.info("Created group " + group);
             redirectAttributes.addFlashAttribute("success", "Group with name " + group.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/groups";
@@ -78,7 +78,7 @@ public class GroupController {
             groupService.saveGroup(group);
             logger.info("Updated group with id = " + group.getId());
             redirectAttributes.addFlashAttribute("success", "Group with name " + group.getName() + " created.");
-        } catch (UniqueNameConstraintException e) {
+        } catch (UniqueConstraintException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/groups";

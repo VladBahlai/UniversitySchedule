@@ -48,8 +48,8 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldReturnTeacherScheduleView() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("WRITE_LESSON"))));
-        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user"));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("WRITE_LESSON"))));
+        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user","email@example.com"));
         when(studentService.getStudentById(userDetails.getUser().getId())).thenThrow(IllegalArgumentException.class);
         this.mockMvc
                 .perform(get("/mySchedule").with(user(userDetails)))
@@ -59,9 +59,9 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldReturnStudentScheduleView() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         when(teacherService.getTeacherById(userDetails.getUser().getId())).thenThrow(IllegalArgumentException.class);
-        when(studentService.getStudentById(userDetails.getUser().getId())).thenReturn(new Student(1L, "user", "user"));
+        when(studentService.getStudentById(userDetails.getUser().getId())).thenReturn(new Student(1L, "user", "user","email@example.com"));
         this.mockMvc
                 .perform(get("/mySchedule").with(user(userDetails)))
                 .andExpect(status().isOk())
@@ -70,7 +70,7 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldRedirectToScheduleWhenUserNotStudentOrTeacher() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         when(teacherService.getTeacherById(userDetails.getUser().getId())).thenThrow(IllegalArgumentException.class);
         when(studentService.getStudentById(userDetails.getUser().getId())).thenThrow(IllegalArgumentException.class);
         this.mockMvc
@@ -83,19 +83,19 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldReturnTeacherScheduleDataWithParams() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
                         new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")),
-                        new Teacher(1L, "test", "123"),
+                        new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10),
                         new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"),
                         TypeOfLesson.PRACTICE));
-        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user"));
-        when(lessonService.getTeacherLessons(new Teacher(1L, "user", "user"), LocalDate.parse("2022-11-04"), LocalDate.parse("2022-11-04"))).thenReturn(lessons);
+        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user","email@example.com"));
+        when(lessonService.getTeacherLessons(new Teacher(1L, "user", "user","email@example.com"), LocalDate.parse("2022-11-04"), LocalDate.parse("2022-11-04"))).thenReturn(lessons);
         when(lessonMapper.toCalendarDTO(lessons.get(0))).thenReturn(calendar.get(0));
 
         MvcResult result = this.mockMvc
@@ -112,19 +112,19 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldReturnTeacherScheduleDataWithoutParams() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
                         new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")),
-                        new Teacher(1L, "test", "123"),
+                        new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10),
                         new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"),
                         TypeOfLesson.PRACTICE));
-        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user"));
-        when(lessonService.getTeacherLessons(new Teacher(1L, "user", "user"), LocalDate.now(), LocalDate.now().plusDays(7))).thenReturn(lessons);
+        when(teacherService.getTeacherById(userDetails.getUser().getId())).thenReturn(new Teacher(1L, "user", "user","email@example.com"));
+        when(lessonService.getTeacherLessons(new Teacher(1L, "user", "user","email@example.com"), LocalDate.now(), LocalDate.now().plusDays(7))).thenReturn(lessons);
         when(lessonMapper.toCalendarDTO(lessons.get(0))).thenReturn(calendar.get(0));
 
         MvcResult result = this.mockMvc
@@ -138,15 +138,15 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldReturnStudentScheduleDataWithParams() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         Group group = new Group(1L, "test", Course.FIRST, new Specialty(1L, "test"));
-        Student student = new Student(1L, "user", "user", group);
+        Student student = new Student(1L, "user", "user","email@example.com", group);
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
                         new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")),
-                        new Teacher(1L, "test", "123"),
+                        new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10),
                         new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"),
@@ -170,15 +170,15 @@ class UserScheduleControllerTest {
 
     @Test
     void shouldReturnStudentScheduleDataWithoutParams() throws Exception {
-        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
+        MyUserDetails userDetails = new MyUserDetails(new User(1L, "user", "user","email@example.com"), new HashSet<>(Collections.singletonList(new Privilege("READ_LESSON"))));
         Group group = new Group(1L, "test", Course.FIRST, new Specialty(1L, "test"));
-        Student student = new Student(1L, "user", "user", group);
+        Student student = new Student(1L, "user", "user","email@example.com", group);
         List<CalendarDTO> calendar = new ArrayList<>(Collections.singletonList(new CalendarDTO("test", "2022-12-10 14:12:00", "2022-12-10 13:12:00", "test[PRACTICE]<br>Aud. test<br>teacher test<br>test")));
         List<Lesson> lessons = Collections.singletonList(
                 new Lesson(1L,
                         new Discipline(1L, "test", 3.0, 120, Course.FIRST, new Specialty(1L, "test")),
                         new Group(1L, "test", Course.FIRST, new Specialty(1L, "test")),
-                        new Teacher(1L, "test", "123"),
+                        new Teacher(1L, "test", "123","email@example.com"),
                         LocalDate.of(2022, 12, 10),
                         new TimeSpan(1L, 1, LocalTime.of(14, 12), LocalTime.of(13, 12)),
                         new Audience(1L, "test"),

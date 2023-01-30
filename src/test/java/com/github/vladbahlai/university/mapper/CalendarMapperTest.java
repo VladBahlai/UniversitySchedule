@@ -24,7 +24,7 @@ class CalendarMapperTest {
         Specialty specialty = new Specialty("test");
         Discipline discipline = new Discipline("math", 2.0, 15, Course.THIRD, specialty);
         Group group = new Group("PA-32", Course.THIRD, specialty);
-        Teacher teacher = new Teacher("teacher", "1234");
+        Teacher teacher = new Teacher("teacher", "1234","email@example.com");
         TimeSpan timeSpan = new TimeSpan(1, LocalTime.of(10, 43, 12), LocalTime.of(10, 45, 12));
         Audience audience = new Audience("test");
         Lesson lesson = new Lesson(discipline, group, teacher, LocalDate.of(2020, 1, 8), timeSpan,

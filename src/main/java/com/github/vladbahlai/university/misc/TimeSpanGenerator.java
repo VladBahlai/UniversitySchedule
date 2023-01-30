@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.misc;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.TimeSpan;
 import com.github.vladbahlai.university.service.TimeSpanService;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class TimeSpanGenerator {
         this.timeSpanService = timeSpanService;
     }
 
-    public void generateTimeSpanData(int countOfLessons, LocalTime startTimeOfLesson, Duration durationOfLesson, Duration recess) throws UniqueNameConstraintException {
+    public void generateTimeSpanData(int countOfLessons, LocalTime startTimeOfLesson, Duration durationOfLesson, Duration recess) throws UniqueConstraintException {
         for (int i = 1; i <= countOfLessons; i++) {
             LocalTime startTime = startTimeOfLesson;
             LocalTime endTime = startTime.plus(durationOfLesson);

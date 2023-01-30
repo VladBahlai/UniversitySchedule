@@ -1,6 +1,6 @@
 package com.github.vladbahlai.university.service;
 
-import com.github.vladbahlai.university.exception.UniqueNameConstraintException;
+import com.github.vladbahlai.university.exception.UniqueConstraintException;
 import com.github.vladbahlai.university.model.User;
 import com.github.vladbahlai.university.repository.StudentRepository;
 import com.github.vladbahlai.university.repository.TeacherRepository;
@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = UserServiceImpl.class)
-public class UserServiceTest {
+class UserServiceTest {
 
     @MockBean
     UserRepository repository;
@@ -36,20 +36,20 @@ public class UserServiceTest {
     UserService service;
 
     @Test
-    void shouldCreateUser() throws UniqueNameConstraintException {
-        User user = new User("test", "test");
-        User expected = new User(1L, "test", "test");
-        when(repository.existsByName(user.getName())).thenReturn(false);
-        when(repository.save(user)).thenReturn(new User(1L, "test", "test"));
+    void shouldCreateUser() throws UniqueConstraintException {
+        User user = new User("test", "test", "email@example.com");
+        User expected = new User(1L, "test", "test", "email@example.com");
+        when(repository.existsByEmail(user.getEmail())).thenReturn(false);
+        when(repository.save(user)).thenReturn(new User(1L, "test", "test", "email@example.com"));
         User actual = service.saveUser(user);
         assertEquals(expected, actual);
         verify(passwordEncoder, times(1)).encode(anyString());
     }
 
     @Test
-    void shouldUpdateUserWithoutPasswordEncode() throws UniqueNameConstraintException {
-        User expected = new User(1L, "test", "test");
-        when(repository.existsByName(expected.getName())).thenReturn(true);
+    void shouldUpdateUserWithoutPasswordEncode() throws UniqueConstraintException {
+        User expected = new User(1L, "test", "test", "email@example.com");
+        when(repository.existsByEmail(expected.getEmail())).thenReturn(true);
         when(repository.existsById(expected.getId())).thenReturn(true);
         when(repository.findById(expected.getId())).thenReturn(Optional.of(expected));
         when(teacherRepository.existsById(expected.getId())).thenReturn(false);
@@ -61,10 +61,10 @@ public class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateUserWithPasswordEncode() throws UniqueNameConstraintException {
-        User expected = new User(1L, "test", "test");
-        User user = new User(1L, "test", "test123");
-        when(repository.existsByName(expected.getName())).thenReturn(true);
+    void shouldUpdateUserWithPasswordEncode() throws UniqueConstraintException {
+        User expected = new User(1L, "test", "test", "email@example.com");
+        User user = new User(1L, "test", "test123", "email@example.com");
+        when(repository.existsByEmail(expected.getEmail())).thenReturn(true);
         when(repository.existsById(expected.getId())).thenReturn(true);
         when(repository.findById(expected.getId())).thenReturn(Optional.of(user));
         when(teacherRepository.existsById(expected.getId())).thenReturn(false);
@@ -77,15 +77,16 @@ public class UserServiceTest {
 
     @Test
     void shouldThrowUniqueNameConstraintException() {
-        User firstUser = new User("test", "test");
-        User secondUser = new User(1L, "test", "test");
-        when(repository.existsByName(firstUser.getName())).thenReturn(true);
-        Exception firstException = assertThrows(UniqueNameConstraintException.class, () -> service.saveUser(firstUser));
-        when(repository.existsByName(secondUser.getName())).thenReturn(true);
+        User firstUser = new User("test", "test", "email@example.com");
+        User secondUser = new User(1L, "test", "test", "email@example.com");
+        when(repository.existsByEmail(firstUser.getEmail())).thenReturn(true);
+        Exception firstException = assertThrows(UniqueConstraintException.class, () -> service.saveUser(firstUser));
+
+        when(repository.existsByEmail(secondUser.getEmail())).thenReturn(true);
         when(repository.existsById(secondUser.getId())).thenReturn(true);
-        when(repository.findById(secondUser.getId())).thenReturn(Optional.of(new User(1L, "test2", "test")));
-        Exception secondException = assertThrows(UniqueNameConstraintException.class, () -> service.saveUser(secondUser));
-        String expectedExceptionMessage = "User with test name already exist.";
+        when(repository.findById(secondUser.getId())).thenReturn(Optional.of(new User(1L, "test", "test", "emaial@example.com")));
+        Exception secondException = assertThrows(UniqueConstraintException.class, () -> service.saveUser(secondUser));
+        String expectedExceptionMessage = "User with email@example.com email already exist.";
         assertEquals(expectedExceptionMessage, firstException.getMessage());
         assertEquals(expectedExceptionMessage, secondException.getMessage());
 
