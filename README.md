@@ -54,11 +54,11 @@
 #### Logins and passwords for app: ####
 
 - Admin: admin@example.com admin
-- Admin: staff@example.com staff
-- Admin: fakeTeacher@example.com teacher
-- Admin: fakeStudent@example.com student
-- Admin: teacher@example.com teacher
-- Admin: student@example.com student
+- Staff: staff@example.com staff
+- User with role teacher: fakeTeacher@example.com teacher
+- User with role student: fakeStudent@example.com student
+- Teacher: teacher@example.com teacher
+- Student: student@example.com student
 
 # Class diagram of UNIVERSITY CMS
 
